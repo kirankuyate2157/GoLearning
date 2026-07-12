@@ -1,0 +1,26 @@
+# .air.toml
+# Configuration for Air live reloading
+
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "swag init ; go build -o tmp\main.exe ."
+bin = "tmp/main.exe"
+full_bin = "tmp/main.exe"
+include_ext = ["go"]
+exclude_dir = ["docs", "tmp", "vendor", ".git"]
+exclude_file = []
+delay = 1000 # milliseconds
+stop_on_error = true
+send_interrupt = false
+kill_delay = 500
+
+[log]
+time = true
+
+[color]
+main = "cyan"
+watcher = "yellow"
+build = "green"
+runner = "magenta"

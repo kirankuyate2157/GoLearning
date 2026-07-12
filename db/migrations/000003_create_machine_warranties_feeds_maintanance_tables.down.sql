@@ -1,0 +1,22 @@
+DROP INDEX IF EXISTS idx_machine_code;
+DROP INDEX IF EXISTS idx_feed_code;
+DROP INDEX IF EXISTS idx_spare_code;
+DROP INDEX IF EXISTS idx_warranty_type_ref;
+
+DROP TABLE IF EXISTS maintenance_checklists;
+DROP TABLE IF EXISTS maintenance_schedules;
+DROP TABLE IF EXISTS maintenance_procedure_steps_checklist;
+DROP TABLE IF EXISTS maintenance_procedure_steps;
+DROP TABLE IF EXISTS maintenance_template_procedures;
+DROP TABLE IF EXISTS maintenance_templates;
+DROP TABLE IF EXISTS maintenance_types;
+DROP TABLE IF EXISTS feed_machine_mapping;
+DROP TABLE IF EXISTS feed_alerts;
+DROP TABLE IF EXISTS feed_connection_types;
+DROP TABLE IF EXISTS feeds;
+DROP TABLE IF EXISTS spare_parts_machines;
+DROP TABLE IF EXISTS spare_part_vendors;
+DROP TABLE IF EXISTS spare_parts;
+DROP TABLE IF EXISTS warranties;
+DROP TABLE IF EXISTS machine_locations;
+DROP TABLE IF EXISTS machines;

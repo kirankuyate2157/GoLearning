@@ -1,0 +1,10 @@
+
+services:
+  ind-auto:
+    build: .
+    container_name: ind-auto
+    ports:
+    - "8022:8080"
+    volumes:
+    - ./dist:/dist
+    - ./.env:/app/.env

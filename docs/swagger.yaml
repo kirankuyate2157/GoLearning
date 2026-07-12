@@ -1,0 +1,4794 @@
+basePath: /api
+definitions:
+  controllers.FeedMapRequest:
+    properties:
+      feed_uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  controllers.FilePatchRequest:
+    properties:
+      is_primary:
+        type: boolean
+    type: object
+  models.AlertsGet:
+    properties:
+      name:
+        type: string
+      structure:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      typeUID:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.AlertsPatch:
+    properties:
+      name:
+        type: string
+      structure:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      typeUID:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.AlertsPost:
+    properties:
+      name:
+        type: string
+      structure:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      typeUID:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.AlertsTypesGet:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      structure:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.Feed:
+    properties:
+      code:
+        type: string
+      connection_type_uid:
+        type: string
+      description:
+        type: string
+      display_unit:
+        type: string
+      high_value:
+        type: number
+      ingestion_type:
+        type: string
+      is_running:
+        type: boolean
+      json:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      low_value:
+        type: number
+      margin_of_error:
+        type: number
+      name:
+        type: string
+      polling_rate:
+        type: integer
+      type_id:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.FeedAlertGet:
+    properties:
+      alert_uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      feed_uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      high_alert_value:
+        type: number
+      low_alert_value:
+        type: number
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.FeedAlertPatch:
+    properties:
+      alert_uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      high_alert_value:
+        type: number
+      low_alert_value:
+        type: number
+    type: object
+  models.FeedAlertPost:
+    properties:
+      alert_uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      high_alert_value:
+        type: number
+      low_alert_value:
+        type: number
+    required:
+    - high_alert_value
+    - low_alert_value
+    type: object
+  models.FeedCreateRequest:
+    properties:
+      code:
+        type: string
+      connection_type_uid:
+        type: string
+      description:
+        type: string
+      display_unit:
+        type: string
+      high_value:
+        type: number
+      ingestion_type:
+        type: string
+      json:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      low_value:
+        type: number
+      margin_of_error:
+        type: number
+      name:
+        type: string
+      polling_rate:
+        type: integer
+      type_id:
+        type: string
+    type: object
+  models.FeedMachineMappingResponse:
+    properties:
+      feed_uid:
+        type: string
+      machine_uid:
+        type: string
+      uid:
+        type: string
+    type: object
+  models.FeedType:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      strucuture:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.FeedTypeCreateRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      structure:
+        additionalProperties: true
+        type: object
+    type: object
+  models.FeedTypeUpdateRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      structure:
+        additionalProperties: true
+        type: object
+    type: object
+  models.FeedUpdateRequest:
+    properties:
+      code:
+        type: string
+      connection_type_id:
+        type: integer
+      connection_type_uid:
+        type: string
+      description:
+        type: string
+      display_unit:
+        type: string
+      display_unit_id:
+        type: integer
+      feed_type_id:
+        type: integer
+      high_value:
+        type: number
+      ingestion_type:
+        type: string
+      is_running:
+        type: boolean
+      json:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+      low_value:
+        type: number
+      margin_of_error:
+        type: number
+      name:
+        type: string
+      polling_rate:
+        type: integer
+      type_id:
+        type: string
+    type: object
+  models.File:
+    properties:
+      extension:
+        example: pdf
+        type: string
+      is_primary:
+        example: false
+        type: boolean
+      mime_type:
+        example: application/pdf
+        type: string
+      original_name:
+        example: document.pdf
+        type: string
+      size_bytes:
+        example: 1024
+        type: integer
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      uploaded_at:
+        type: string
+      usageType:
+        type: string
+    type: object
+  models.Machine:
+    properties:
+      code:
+        example: PKG-ROB-01
+        type: string
+      consumable_cost:
+        type: number
+      created_at:
+        type: string
+      description:
+        type: string
+      electrity_uph:
+        type: number
+      files:
+        items:
+          $ref: '#/definitions/models.File'
+        type: array
+      installation_date:
+        type: string
+      max_operation_value:
+        type: number
+      max_operation_value_unit:
+        type: string
+      min_operation_value:
+        type: number
+      min_operation_value_unit:
+        type: string
+      model:
+        type: string
+      name:
+        example: Packaging Robot
+        type: string
+      rent_purchase_cost:
+        type: number
+      serial_no:
+        type: string
+      type_id:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440001
+        type: string
+      vendor:
+        type: string
+      wages_per_hour:
+        type: number
+    type: object
+  models.MachineCreateRequest:
+    properties:
+      code:
+        type: string
+      consumable_cost:
+        type: number
+      description:
+        type: string
+      electrity_uph:
+        type: number
+      installation_date:
+        description: ISO date (YYYY-MM-DD)
+        type: string
+      max_operation_value:
+        type: number
+      max_operation_value_unit:
+        type: string
+      min_operation_value:
+        type: number
+      min_operation_value_unit:
+        type: string
+      model:
+        type: string
+      name:
+        type: string
+      rent_purchase_cost:
+        type: number
+      serial_no:
+        type: string
+      type_id:
+        type: string
+      vendor:
+        type: string
+      wages_per_hour:
+        type: number
+    required:
+    - code
+    - name
+    type: object
+  models.MachineLocation:
+    properties:
+      area:
+        type: string
+      cell_or_line:
+        type: string
+      created_at:
+        type: string
+      plant:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440010
+        type: string
+    type: object
+  models.MachineLocationCreateRequest:
+    properties:
+      area:
+        type: string
+      cell_or_line:
+        type: string
+      plant:
+        minLength: 2
+        type: string
+    required:
+    - plant
+    type: object
+  models.MachineLocationUpdateRequest:
+    properties:
+      area:
+        type: string
+      cell_or_line:
+        type: string
+      plant:
+        type: string
+    type: object
+  models.MachineUpdateRequest:
+    properties:
+      code:
+        type: string
+      consumable_cost:
+        type: number
+      description:
+        type: string
+      electrity_uph:
+        type: number
+      installation_date:
+        description: ISO date (YYYY-MM-DD)
+        type: string
+      max_operation_value:
+        type: number
+      max_operation_value_unit:
+        type: string
+      min_operation_value:
+        type: number
+      min_operation_value_unit:
+        type: string
+      model:
+        type: string
+      name:
+        type: string
+      rent_purchase_cost:
+        type: number
+      serial_no:
+        type: string
+      type_id:
+        type: string
+      vendor:
+        type: string
+      wages_per_hour:
+        type: number
+    type: object
+  models.Maintenance:
+    properties:
+      Maintenance:
+        $ref: '#/definitions/models.MaintenanceInfo'
+    type: object
+  models.MaintenanceInfo:
+    properties:
+      description:
+        type: string
+      files:
+        items:
+          $ref: '#/definitions/models.File'
+        type: array
+      frequency_uid:
+        type: string
+      is_complete:
+        type: boolean
+      maintenance_name:
+        type: string
+      maintenance_schedule_uid:
+        type: string
+      procedures:
+        items:
+          $ref: '#/definitions/models.ProcedureDTO'
+        type: array
+      type_uid:
+        type: string
+    type: object
+  models.MaintenanceSchedule:
+    properties:
+      end_timestamp:
+        type: string
+      ended_on:
+        type: string
+      findings:
+        type: string
+      machine_uid:
+        type: string
+      maintenance_template_uid:
+        type: string
+      start_timestamp:
+        type: string
+      started_on:
+        type: string
+      status:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.MaintenanceScheduleCreateRequest:
+    properties:
+      end_timestamp:
+        type: string
+      machine_uid:
+        type: string
+      maintenance_template_uid:
+        type: string
+      start_timestamp:
+        type: string
+    type: object
+  models.MaintenanceScheduleObservationCreateRequest:
+    properties:
+      answer_uid:
+        example: 550e8400-e29b-41d4-a716-446655440020
+        type: string
+      question_uid:
+        example: 550e8400-e29b-41d4-a716-446655440020
+        type: string
+      remark:
+        type: string
+    type: object
+  models.MaintenanceScheduleUpdateRequest:
+    properties:
+      assigned_to:
+        type: integer
+      date:
+        type: string
+      end_timestamp:
+        type: string
+      ended_on:
+        type: string
+      findings:
+        type: string
+      machine_uid:
+        type: string
+      maintenance_template_uid:
+        type: string
+      start_timestamp:
+        type: string
+      started_on:
+        type: string
+      status:
+        type: string
+    type: object
+  models.MaintenanceTemplate:
+    properties:
+      description:
+        type: string
+      frequency_uid:
+        type: string
+      name:
+        type: string
+      type_uid:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.MaintenanceTemplateCreateRequest:
+    properties:
+      description:
+        type: string
+      frequency_uid:
+        type: string
+      name:
+        type: string
+      type_uid:
+        type: string
+    type: object
+  models.MaintenanceTemplateMachine:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      machine_uid:
+        example: 550e8400-e29b-41d4-a716-446655440040
+        type: string
+      maintenance_template_uid:
+        example: 550e8400-e29b-41d4-a716-446655440030
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440031
+        type: string
+    type: object
+  models.MaintenanceTemplateMachineCreateRequest:
+    properties:
+      machine_uid:
+        type: string
+    required:
+    - machine_uid
+    type: object
+  models.MaintenanceTemplateUpdateRequest:
+    properties:
+      description:
+        type: string
+      frequency_uid:
+        type: string
+      name:
+        type: string
+      type_uid:
+        type: string
+    type: object
+  models.MaintenanceType:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.MaintenanceTypeCreateRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.MaintenanceTypeUpdateRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.PaginatedResponse:
+    properties:
+      data: {}
+      pagination:
+        $ref: '#/definitions/models.PaginationInfo'
+    type: object
+  models.PaginationInfo:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  models.ProcedureDTO:
+    properties:
+      description:
+        type: string
+      is_complete:
+        type: boolean
+      maintenance_template_uid:
+        type: string
+      name:
+        type: string
+      steps:
+        items:
+          $ref: '#/definitions/models.ProcedureStepDTO'
+        type: array
+      uid:
+        type: string
+    type: object
+  models.ProcedureStep:
+    properties:
+      description:
+        type: string
+      maintenance_template_procedure_uid:
+        type: string
+      name:
+        type: string
+      step_no:
+        type: integer
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.ProcedureStepCreate:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      step_no:
+        type: integer
+    type: object
+  models.ProcedureStepDTO:
+    properties:
+      checklists:
+        items:
+          $ref: '#/definitions/models.ProcedureStepQuestionDTO'
+        type: array
+      description:
+        type: string
+      is_complete:
+        type: boolean
+      maintenance_template_procedure_uid:
+        type: string
+      name:
+        type: string
+      step_no:
+        type: integer
+      uid:
+        type: string
+    type: object
+  models.ProcedureStepQuestionCreateRequest:
+    properties:
+      description:
+        type: string
+      display_order:
+        type: integer
+      name:
+        type: string
+      sequence:
+        type: integer
+    type: object
+  models.ProcedureStepQuestionDTO:
+    properties:
+      description:
+        type: string
+      display_order:
+        type: integer
+      is_complete:
+        type: boolean
+      name:
+        type: string
+      procedure_step_uid:
+        type: string
+      remark:
+        type: string
+      sequence:
+        type: integer
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.ProcedureStepQuestionUpdateRequest:
+    properties:
+      description:
+        type: string
+      display_order:
+        type: integer
+      name:
+        type: string
+      sequence:
+        type: integer
+    type: object
+  models.ProcedureStepUpdate:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      step_no:
+        type: integer
+    type: object
+  models.QuestionAnswerCreateRequest:
+    properties:
+      answer_text:
+        type: string
+      display_order:
+        type: integer
+    type: object
+  models.QuestionAnswerUpdateRequest:
+    properties:
+      answer_text:
+        type: string
+      display_order:
+        type: integer
+    type: object
+  models.SparePart:
+    properties:
+      code:
+        example: SP-HYD-001
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      files:
+        items:
+          $ref: '#/definitions/models.File'
+        type: array
+      name:
+        example: Hydraulic Pump
+        type: string
+      type_id:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440030
+        type: string
+    type: object
+  models.SparePartCreateRequest:
+    properties:
+      code:
+        minLength: 2
+        type: string
+      description:
+        type: string
+      name:
+        minLength: 2
+        type: string
+      type_id:
+        type: string
+    required:
+    - code
+    - name
+    type: object
+  models.SparePartMachine:
+    properties:
+      created_at:
+        type: string
+      machine_uid:
+        example: 550e8400-e29b-41d4-a716-446655440040
+        type: string
+      spare_part_uid:
+        example: 550e8400-e29b-41d4-a716-446655440030
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440031
+        type: string
+    type: object
+  models.SparePartMachineCreateRequest:
+    properties:
+      machine_uid:
+        type: string
+    required:
+    - machine_uid
+    type: object
+  models.SparePartUpdateRequest:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      type_id:
+        type: string
+    type: object
+  models.SparePartVendorCreateRequest:
+    properties:
+      model_no:
+        type: string
+      vendor_uid:
+        type: string
+    required:
+    - vendor_uid
+    type: object
+  models.SparePartVendorUpdateRequest:
+    properties:
+      model_no:
+        type: string
+    type: object
+  models.TaxesGet:
+    properties:
+      percentage:
+        type: number
+      type:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.TaxesPatch:
+    properties:
+      percentage:
+        type: number
+      type:
+        type: string
+    type: object
+  models.TaxesPost:
+    properties:
+      percentage:
+        type: number
+      type:
+        type: string
+    type: object
+  models.TemplateProcedure:
+    properties:
+      description:
+        type: string
+      maintenance_template_uid:
+        type: string
+      name:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.TemplateProcedureCreateRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.TemplateProcedureUpdateRequest:
+    properties:
+      description:
+        type: string
+      maintenance_template_uid:
+        type: string
+      name:
+        type: string
+    type: object
+  models.Type:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.TypeCreateRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - category
+    - name
+    type: object
+  models.TypeUpdateRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.Vendor:
+    properties:
+      created_at:
+        type: string
+      email:
+        example: sales@acme.example.com
+        type: string
+      files:
+        items:
+          $ref: '#/definitions/models.File'
+        type: array
+      gst_no:
+        type: string
+      gst_type:
+        type: string
+      join_date:
+        type: string
+      name:
+        example: Acme Supplies
+        type: string
+      phone_no:
+        example: "+1234567890"
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      website:
+        example: https://acme.example.com
+        type: string
+    type: object
+  models.VendorAddress:
+    properties:
+      address_line_1:
+        type: string
+      address_line_2:
+        type: string
+      address_line_3:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      is_primary:
+        type: boolean
+      landmark:
+        type: string
+      pin_code:
+        type: string
+      state:
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+    type: object
+  models.VendorAddressCreateRequest:
+    properties:
+      address_line_1:
+        minLength: 3
+        type: string
+      address_line_2:
+        type: string
+      address_line_3:
+        type: string
+      city:
+        minLength: 2
+        type: string
+      country:
+        minLength: 2
+        type: string
+      landmark:
+        type: string
+      pin_code:
+        type: string
+      state:
+        minLength: 2
+        type: string
+    required:
+    - address_line_1
+    - city
+    - country
+    - pin_code
+    - state
+    type: object
+  models.VendorAddressUpdateRequest:
+    properties:
+      address_line_1:
+        type: string
+      address_line_2:
+        type: string
+      address_line_3:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      is_primary:
+        type: boolean
+      landmark:
+        type: string
+      pin_code:
+        type: string
+      state:
+        type: string
+    type: object
+  models.VendorContact:
+    properties:
+      contact_uid:
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      mobile_number:
+        type: string
+      name:
+        type: string
+    type: object
+  models.VendorContactCreateRequest:
+    properties:
+      email:
+        type: string
+      mobile_number:
+        maxLength: 15
+        minLength: 10
+        type: string
+      person_name:
+        type: string
+    required:
+    - email
+    - mobile_number
+    - person_name
+    type: object
+  models.VendorContactUpdateRequest:
+    properties:
+      email:
+        type: string
+      mobile_number:
+        type: string
+      person_name:
+        type: string
+    type: object
+  models.VendorCreateRequest:
+    properties:
+      email:
+        type: string
+      gst_no:
+        type: string
+      gst_type:
+        description: Tax UID
+        type: string
+      join_date:
+        description: ISO date
+        type: string
+      name:
+        type: string
+      phone_no:
+        type: string
+      website:
+        type: string
+    required:
+    - name
+    type: object
+  models.VendorType:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      type_uid:
+        type: string
+      vendor_assign_uid:
+        type: string
+    type: object
+  models.VendorTypeRequest:
+    properties:
+      vendor_type_uid:
+        type: string
+    required:
+    - vendor_type_uid
+    type: object
+  models.VendorUpdateRequest:
+    properties:
+      email:
+        type: string
+      gst_no:
+        type: string
+      gst_type:
+        description: Tax UID
+        type: string
+      join_date:
+        description: ISO date
+        type: string
+      name:
+        type: string
+      phone_no:
+        type: string
+      website:
+        type: string
+    type: object
+  models.Warranty:
+    properties:
+      created_at:
+        type: string
+      end_date:
+        type: string
+      provider_uid:
+        type: string
+      ref_uid:
+        example: "1"
+        type: string
+      start_date:
+        type: string
+      type:
+        description: '''machine'' or ''part'''
+        example: machine
+        type: string
+      uid:
+        example: 550e8400-e29b-41d4-a716-446655440020
+        type: string
+    type: object
+  models.WarrantyCreateRequest:
+    properties:
+      end_date:
+        description: ISO date (YYYY-MM-DD)
+        type: string
+      provider_uid:
+        type: string
+      start_date:
+        description: ISO date (YYYY-MM-DD)
+        type: string
+      type:
+        enum:
+        - machine
+        - part
+        type: string
+    required:
+    - type
+    type: object
+  models.WarrantyUpdateRequest:
+    properties:
+      end_date:
+        description: ISO date (YYYY-MM-DD)
+        type: string
+      provider_uid:
+        type: string
+      start_date:
+        description: ISO date (YYYY-MM-DD)
+        type: string
+    type: object
+  repo.SparePartVendorRow:
+    properties:
+      modelNo:
+        type: string
+      supplierUID:
+        type: string
+      uid:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server for using Swagger with Echo.
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /feeds:
+    get:
+      description: Get list of feeds
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Feed'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Feeds
+      tags:
+      - Feeds
+    post:
+      consumes:
+      - application/json
+      description: Create a new feed
+      parameters:
+      - description: Feed payload
+        in: body
+        name: feed
+        required: true
+        schema:
+          $ref: '#/definitions/models.FeedCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Feed
+      tags:
+      - Feeds
+  /feeds/{feed_uid}/alert:
+    get:
+      description: Get feed alert by UID
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FeedAlertGet'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Feed Alert
+      tags:
+      - FeedAlerts
+    post:
+      consumes:
+      - application/json
+      description: Create a new feed alert
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      - description: FeedAlert payload
+        in: body
+        name: feed_alert
+        required: true
+        schema:
+          $ref: '#/definitions/models.FeedAlertPost'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Feed Alert
+      tags:
+      - FeedAlerts
+  /feeds/{feed_uid}/alert/{uid}:
+    patch:
+      consumes:
+      - application/json
+      description: Update feed alert by UID
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      - description: FeedAlert UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: FeedAlert update payload
+        in: body
+        name: feed_alert
+        required: true
+        schema:
+          $ref: '#/definitions/models.FeedAlertPatch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Feed Alert
+      tags:
+      - FeedAlerts
+  /feeds/{feed_uid}/ingestions:
+    post:
+      description: Start an ingestion subprocess for a specific feed
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ingestion started successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Feed not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Ingestion already running
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Start Feed Ingestion Process
+      tags:
+      - FeedIngetions
+  /feeds/{feed_uid}/machines:
+    get:
+      description: Returns mapping_uid, feed_uid, machine_uid
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FeedMachineMappingResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List machine mappings for a feed
+      tags:
+      - Feed-Machine Mapping
+  /feeds/{feed_uid}/machines/{machine_uid}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a mapping between a feed and a machine if it exists.
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Mapping deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Mapping not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Remove feed mapping from machine
+      tags:
+      - Feed-Machine Mapping
+    post:
+      consumes:
+      - application/json
+      description: Creates a mapping between a feed and a machine. Prevents duplicate
+        mappings.
+      parameters:
+      - description: Feed UID
+        in: path
+        name: feed_uid
+        required: true
+        type: string
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Mapping created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request or mapping already exists
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Feed or Machine not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Attach a feed to a machine
+      tags:
+      - Feed-Machine Mapping
+  /feeds/{uid}:
+    delete:
+      description: Delete a feed by UID
+      parameters:
+      - description: Feed UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Feed
+      tags:
+      - Feeds
+    get:
+      description: Get feed by UID
+      parameters:
+      - description: Feed UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Feed'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Feed
+      tags:
+      - Feeds
+    patch:
+      consumes:
+      - application/json
+      description: Update feed by UID
+      parameters:
+      - description: Feed UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Feed update payload
+        in: body
+        name: feed
+        required: true
+        schema:
+          $ref: '#/definitions/models.FeedUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Feed
+      tags:
+      - Feeds
+  /feeds/{uid}/ingestions:
+    delete:
+      description: Stop an active ingestion subprocess for a specific feed
+      parameters:
+      - description: Feed UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ingestion stopped successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: No active ingestion found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Stop Feed Ingestion Process
+      tags:
+      - FeedIngetions
+  /feeds/alert:
+    get:
+      description: Get list of feed alerts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FeedAlertGet'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Feed Alerts
+      tags:
+      - FeedAlerts
+  /feeds/alert/{uid}:
+    delete:
+      description: Delete a feed alert by UID
+      parameters:
+      - description: FeedAlert UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Feed Alert
+      tags:
+      - FeedAlerts
+  /feeds/ingestions:
+    get:
+      description: Get list of all active ingestion processes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List Active Ingestion Processes
+      tags:
+      - FeedIngetions
+  /feeds/machine/{uid}:
+    post:
+      consumes:
+      - application/json
+      description: Map a feed to a machine by their UIDs
+      parameters:
+      - description: Machine UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Feed request payload
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.FeedMapRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Map Feed to Machine
+      tags:
+      - Feeds
+  /feeds/machines/{machine_uid}/:
+    get:
+      description: Returns mapping_uid, feed_uid, machine_uid
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FeedMachineMappingResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List feed mappings for a machine
+      tags:
+      - Feed-Machine Mapping
+  /feeds/type:
+    get:
+      description: Get list of feed_types
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FeedType'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get FeedTypes
+      tags:
+      - FeedTypes
+    post:
+      consumes:
+      - application/json
+      description: Create a new feed type
+      parameters:
+      - description: FeedType payload
+        in: body
+        name: feed_type
+        required: true
+        schema:
+          $ref: '#/definitions/models.FeedTypeCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create FeedType
+      tags:
+      - FeedTypes
+  /feeds/type/{uid}:
+    delete:
+      description: Delete a feed type by UID
+      parameters:
+      - description: FeedType UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete FeedType
+      tags:
+      - FeedTypes
+    get:
+      description: Get a feed type by UID
+      parameters:
+      - description: FeedType UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FeedType'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get FeedType
+      tags:
+      - FeedTypes
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing feed type by UID
+      parameters:
+      - description: FeedType UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: FeedType update payload
+        in: body
+        name: feed_type
+        required: true
+        schema:
+          $ref: '#/definitions/models.FeedTypeUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update FeedType
+      tags:
+      - FeedTypes
+  /files:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload a file and associate it with an entity (machine, spare_part,
+        vendor)
+      parameters:
+      - description: File to upload (image or PDF)
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Entity type (machine, spare_part, vendor)
+        in: formData
+        name: entity_type
+        required: true
+        type: string
+      - description: Entity UID
+        in: formData
+        name: entity_uid
+        required: true
+        type: string
+      - description: Usage type (thumbnail, attachment, report, image, diagram, document)
+        in: formData
+        name: usage_type
+        required: true
+        type: string
+      - description: Display order
+        in: formData
+        name: display_order
+        type: integer
+      - description: Is primary file
+        in: formData
+        name: is_primary
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Upload File
+      tags:
+      - Files
+  /files/{uid}:
+    delete:
+      description: Delete a file by UID
+      parameters:
+      - description: File UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{\"message\":\"File deleted successfully\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete File
+      tags:
+      - Files
+    get:
+      description: Download/view a file by UID
+      parameters:
+      - description: File UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Download File
+      tags:
+      - Files
+    patch:
+      consumes:
+      - application/json
+      description: Update is_primary for a file link; when set true, other files in
+        the same entity/type/usage are cleared
+      parameters:
+      - description: File UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Patch payload (is_primary only)
+        in: body
+        name: file
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.FilePatchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update file primary flag
+      tags:
+      - Files
+  /machines:
+    get:
+      description: Get list of machines (JWT protected)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get Machines
+      tags:
+      - Machines
+    post:
+      consumes:
+      - application/json
+      description: Create a new machine (JWT protected)
+      parameters:
+      - description: Machine payload
+        in: body
+        name: machine
+        required: true
+        schema:
+          $ref: '#/definitions/models.MachineCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Machine
+      tags:
+      - Machines
+  /machines/{machine_uid}/locations:
+    get:
+      description: Get locations associated with a machine (identified by machine
+        UID)
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MachineLocation'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: List Machine Locations
+      tags:
+      - MachineLocations
+    post:
+      consumes:
+      - application/json
+      description: Create a new machine location for a machine (identified by machine
+        UID)
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      - description: Machine location payload
+        in: body
+        name: machine_location
+        required: true
+        schema:
+          $ref: '#/definitions/models.MachineLocationCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Machine Location
+      tags:
+      - MachineLocations
+  /machines/{machine_uid}/locations/{location_uid}:
+    delete:
+      description: Delete a machine location by machine UID and location UID
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      - description: Location UID
+        in: path
+        name: location_uid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Machine Location
+      tags:
+      - MachineLocations
+    patch:
+      consumes:
+      - application/json
+      description: Update a machine location by machine UID and location UID
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      - description: Location UID
+        in: path
+        name: location_uid
+        required: true
+        type: string
+      - description: Machine location update payload
+        in: body
+        name: machine_location
+        required: true
+        schema:
+          $ref: '#/definitions/models.MachineLocationUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Machine Location
+      tags:
+      - MachineLocations
+  /machines/{machine_uid}/warranties:
+    get:
+      description: Get warranties associated with a machine
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Warranty'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: List Machine Warranties
+      tags:
+      - MachineWarranty
+    post:
+      consumes:
+      - application/json
+      description: Create a new warranty for a machine
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      - description: Warranty payload
+        in: body
+        name: warranty
+        required: true
+        schema:
+          $ref: '#/definitions/models.WarrantyCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Machine Warranty
+      tags:
+      - MachineWarranty
+  /machines/{machine_uid}/warranties/{warranty_uid}:
+    delete:
+      description: Delete a warranty for a machine
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      - description: Warranty UID
+        in: path
+        name: warranty_uid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Machine Warranty
+      tags:
+      - MachineWarranty
+    patch:
+      consumes:
+      - application/json
+      description: Update a warranty for a machine
+      parameters:
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      - description: Warranty UID
+        in: path
+        name: warranty_uid
+        required: true
+        type: string
+      - description: Warranty update payload
+        in: body
+        name: warranty
+        required: true
+        schema:
+          $ref: '#/definitions/models.WarrantyUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Machine Warranty
+      tags:
+      - MachineWarranty
+  /machines/{uid}:
+    delete:
+      description: Delete a machine by UID (JWT protected)
+      parameters:
+      - description: Machine UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete Machine
+      tags:
+      - Machines
+    get:
+      description: Get machine by UID (JWT protected)
+      parameters:
+      - description: Machine UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Machine'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get Machine
+      tags:
+      - Machines
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing machine by UID (JWT protected)
+      parameters:
+      - description: Machine UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Machine update payload
+        in: body
+        name: machine
+        required: true
+        schema:
+          $ref: '#/definitions/models.MachineUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update Machine
+      tags:
+      - Machines
+  /maintenance/procedures/{procedure_uid}/steps:
+    get:
+      description: Get steps associated with a procedure
+      parameters:
+      - description: Procedure UID
+        in: path
+        name: procedure_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ProcedureStep'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: List Procedure Steps
+      tags:
+      - Maintenance Template Procedure Steps
+    post:
+      consumes:
+      - application/json
+      description: Create a  step for procedure
+      parameters:
+      - description: Procedure UID
+        in: path
+        name: procedure_uid
+        required: true
+        type: string
+      - description: Procedure step payload
+        in: body
+        name: warranty
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProcedureStepCreate'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Procedure Steps
+      tags:
+      - Maintenance Template Procedure Steps
+  /maintenance/procedures/steps/{uid}:
+    delete:
+      description: Delete a step for a procedure
+      parameters:
+      - description: Step UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Procedure Step
+      tags:
+      - Maintenance Template Procedure Steps
+    patch:
+      consumes:
+      - application/json
+      description: Update a step for a Procedure
+      parameters:
+      - description: Procedure Step UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Procedure step update payload
+        in: body
+        name: procedure_step
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProcedureStepUpdate'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Procedure Step
+      tags:
+      - Maintenance Template Procedure Steps
+  /maintenance/procedures/steps/{uid}/questions:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of procedure step questions
+      parameters:
+      - description: Procedure Step UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: List Procedure Step Questions
+      tags:
+      - MaintenanceProcedureStepQuestion
+    post:
+      consumes:
+      - application/json
+      description: Create a new question for a procedure step
+      parameters:
+      - description: Step UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Question payload
+        in: body
+        name: procedure_step
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProcedureStepQuestionCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Procedure Step Question
+      tags:
+      - MaintenanceProcedureStepQuestion
+  /maintenance/procedures/steps/questions/{uid}:
+    delete:
+      description: Delete a question item for a procedure step
+      parameters:
+      - description: Question UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete Procedure Step Question
+      tags:
+      - MaintenanceProcedureStepQuestion
+    patch:
+      consumes:
+      - application/json
+      description: Update a question item for a procedure step
+      parameters:
+      - description: Question UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Question update payload
+        in: body
+        name: procedure_step_question
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProcedureStepQuestionUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Procedure Step Question
+      tags:
+      - MaintenanceProcedureStepQuestion
+  /maintenance/procedures/steps/questions/{uid}/answers:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of answers for a question
+      parameters:
+      - description: Question UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: List Question Answers
+      tags:
+      - MaintenanceQuestionAnswer
+    post:
+      consumes:
+      - application/json
+      description: Create a new answer for a question
+      parameters:
+      - description: Question UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Answer payload
+        in: body
+        name: question_answer
+        required: true
+        schema:
+          $ref: '#/definitions/models.QuestionAnswerCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Question Answer
+      tags:
+      - MaintenanceQuestionAnswer
+  /maintenance/procedures/steps/questions/answers/{uid}:
+    delete:
+      description: Delete an answer for a question
+      parameters:
+      - description: Answer UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete Question Answer
+      tags:
+      - MaintenanceQuestionAnswer
+    patch:
+      consumes:
+      - application/json
+      description: Update an answer for a question
+      parameters:
+      - description: Answer UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Answer update payload
+        in: body
+        name: question_answer
+        required: true
+        schema:
+          $ref: '#/definitions/models.QuestionAnswerUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Question Answer
+      tags:
+      - MaintenanceQuestionAnswer
+  /maintenance/schedules:
+    get:
+      description: Get list of maintenance schedules
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Page size
+        in: query
+        name: page_size
+        type: integer
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.PaginatedResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.MaintenanceSchedule'
+                  type: array
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Maintenance Schedules
+      tags:
+      - MaintenanceSchedules
+    post:
+      consumes:
+      - application/json
+      description: Create a new maintenance schedule
+      parameters:
+      - description: Schedule payload
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceScheduleCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Maintenance Schedule
+      tags:
+      - MaintenanceSchedules
+  /maintenance/schedules/{maintenance_schedule_uid}/observations:
+    get:
+      description: Get all observation items linked to a Maintenance Schedule
+      parameters:
+      - description: Maintenance Schedule  UID
+        in: path
+        name: maintenance_schedule_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Maintenance'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List Maintenance Schedule Observations
+      tags:
+      - MaintenanceScheduleObservations
+    post:
+      consumes:
+      - application/json
+      description: Link a observation to a maintenance schedule
+      parameters:
+      - description: Maintenance Schedule UID
+        in: path
+        name: maintenance_schedule_uid
+        required: true
+        type: string
+      - description: MaintenanceScheduleObservation payload
+        in: body
+        name: Observation
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceScheduleObservationCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Maintenance Schedule Observation mapping
+      tags:
+      - MaintenanceScheduleObservations
+  /maintenance/schedules/{maintenance_schedule_uid}/observations/{procedure_step_question_uid}:
+    delete:
+      description: Delete a specific procedure step Observation from a maintenance
+        schedule
+      parameters:
+      - description: Maintenance Schedule UID
+        in: path
+        name: maintenance_schedule_uid
+        required: true
+        type: string
+      - description: Procedure Step Observation UID
+        in: path
+        name: procedure_step_observation_uid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Delete Success Message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Maintenance Schedule Observation
+      tags:
+      - MaintenanceScheduleObservations
+  /maintenance/schedules/{uid}:
+    delete:
+      description: Delete a maintenance schedule by UID
+      parameters:
+      - description: Schedule UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Maintenance Schedule
+      tags:
+      - MaintenanceSchedules
+    patch:
+      consumes:
+      - application/json
+      description: Update maintenance schedule by UID
+      parameters:
+      - description: Schedule UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Schedule update payload
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceScheduleUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Maintenance Schedule
+      tags:
+      - MaintenanceSchedules
+  /maintenance/templates:
+    get:
+      description: Get list of maintenance templates
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MaintenanceTemplate'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Maintenance Templates
+      tags:
+      - MaintenanceTemplates
+    post:
+      consumes:
+      - application/json
+      description: Create a new maintenance template
+      parameters:
+      - description: Template payload
+        in: body
+        name: template
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceTemplateCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Maintenance Template
+      tags:
+      - MaintenanceTemplates
+  /maintenance/templates/{template_uid}/machines:
+    get:
+      parameters:
+      - description: Maintenance Template UID
+        in: path
+        name: template_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MaintenanceTemplateMachine'
+            type: array
+      summary: Get machines for a maintenance template
+      tags:
+      - MaintenanceTemplateMachines
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Maintenance Template UID
+        in: path
+        name: template_uid
+        required: true
+        type: string
+      - description: Mapping payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceTemplateMachineCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create maintenance-template -> machine mapping
+      tags:
+      - MaintenanceTemplateMachines
+  /maintenance/templates/{template_uid}/machines/{machine_uid}:
+    delete:
+      parameters:
+      - description: Maintenance Template UID
+        in: path
+        name: template_uid
+        required: true
+        type: string
+      - description: Machine UID
+        in: path
+        name: machine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete maintenance-template -> machine mapping
+      tags:
+      - MaintenanceTemplateMachines
+  /maintenance/templates/{uid}:
+    delete:
+      description: Delete a maintenance template by UID
+      parameters:
+      - description: Template UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Maintenance Template
+      tags:
+      - MaintenanceTemplates
+    get:
+      description: Get maintenance template by UID
+      parameters:
+      - description: Template UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MaintenanceTemplate'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Maintenance Template
+      tags:
+      - MaintenanceTemplates
+    patch:
+      consumes:
+      - application/json
+      description: Update maintenance template by UID
+      parameters:
+      - description: Template UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Template update payload
+        in: body
+        name: template
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceTemplateUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Maintenance Template
+      tags:
+      - MaintenanceTemplates
+  /maintenance/templates/{uid}/procedures:
+    get:
+      description: Get list of template procedures
+      parameters:
+      - description: Maintenance Template UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TemplateProcedure'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Template Procedures
+      tags:
+      - Maintenance Template Procedures
+    post:
+      consumes:
+      - application/json
+      description: Create a new template procedure
+      parameters:
+      - description: Maintenance Template UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Procedure payload
+        in: body
+        name: procedure
+        required: true
+        schema:
+          $ref: '#/definitions/models.TemplateProcedureCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Maintenance Template Procedure
+      tags:
+      - Maintenance Template Procedures
+  /maintenance/templates/procedures/{uid}:
+    delete:
+      description: Delete a template procedure by UID
+      parameters:
+      - description: Procedure UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Maintenance Template Procedure
+      tags:
+      - Maintenance Template Procedures
+    get:
+      description: Get template procedure by UID
+      parameters:
+      - description: Procedure UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TemplateProcedure'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Maintenance Template Procedure
+      tags:
+      - Maintenance Template Procedures
+    patch:
+      consumes:
+      - application/json
+      description: Update template procedure by UID
+      parameters:
+      - description: Procedure UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Procedure update payload
+        in: body
+        name: procedure
+        required: true
+        schema:
+          $ref: '#/definitions/models.TemplateProcedureUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Maintenance Template Procedure
+      tags:
+      - Maintenance Template Procedures
+  /maintenance/type:
+    get:
+      description: Get list of Maintenance_types
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MaintenanceType'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get MaintenanceTypes
+      tags:
+      - MaintenanceTypes
+    post:
+      consumes:
+      - application/json
+      description: Create a new Maintenance type
+      parameters:
+      - description: MaintenanceType payload
+        in: body
+        name: Maintenance_type
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceTypeCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create MaintenanceType
+      tags:
+      - MaintenanceTypes
+  /maintenance/type/{uid}:
+    delete:
+      description: Delete a Maintenance type by UID
+      parameters:
+      - description: MaintenanceType UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete MaintenanceType
+      tags:
+      - MaintenanceTypes
+    get:
+      description: Get a Maintenance type by UID
+      parameters:
+      - description: MaintenanceType UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MaintenanceType'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get MaintenanceType
+      tags:
+      - MaintenanceTypes
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing Maintenance type by UID
+      parameters:
+      - description: MaintenanceType UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: MaintenanceType update payload
+        in: body
+        name: Maintenance_type
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceTypeUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update MaintenanceType
+      tags:
+      - MaintenanceTypes
+  /settings/alerts:
+    get:
+      description: Get alert by UID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AlertsGet'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get  Alerts List
+      tags:
+      - Alerts
+    post:
+      consumes:
+      - application/json
+      description: Create a new  alert
+      parameters:
+      - description: FeedAlert payload
+        in: body
+        name: feed_alert
+        required: true
+        schema:
+          $ref: '#/definitions/models.AlertsPost'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Alert
+      tags:
+      - Alerts
+  /settings/alerts/{uid}:
+    delete:
+      description: Delete a alert by UID
+      parameters:
+      - description: Alert UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Alert
+      tags:
+      - Alerts
+    patch:
+      consumes:
+      - application/json
+      description: Update alert by UID
+      parameters:
+      - description: Alert UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Alert update payload
+        in: body
+        name: feed_alert
+        required: true
+        schema:
+          $ref: '#/definitions/models.AlertsPatch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Alert
+      tags:
+      - Alerts
+  /settings/alerts/types:
+    get:
+      description: Get Alerts Types List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AlertsTypesGet'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Alerts Types List
+      tags:
+      - Alerts
+  /settings/taxes:
+    get:
+      description: Get Taxes List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TaxesGet'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Taxes List
+      tags:
+      - Taxes
+    post:
+      consumes:
+      - application/json
+      description: Create a new tax
+      parameters:
+      - description: Tax payload
+        in: body
+        name: taxes
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaxesPost'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Tax
+      tags:
+      - Taxes
+  /settings/taxes/{uid}:
+    delete:
+      description: Delete a tax by UID
+      parameters:
+      - description: Tax UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Tax
+      tags:
+      - Taxes
+    patch:
+      consumes:
+      - application/json
+      description: Update tax by UID
+      parameters:
+      - description: Tax UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Tax update payload
+        in: body
+        name: taxes
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaxesPatch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Tax
+      tags:
+      - Taxes
+  /spare-parts:
+    get:
+      description: Get list of spare parts (JWT protected)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SparePart'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get Spare Parts
+      tags:
+      - SpareParts
+    post:
+      consumes:
+      - application/json
+      description: Create a new spare part (JWT protected)
+      parameters:
+      - description: Spare part payload
+        in: body
+        name: spare_part
+        required: true
+        schema:
+          $ref: '#/definitions/models.SparePartCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Spare Part
+      tags:
+      - SpareParts
+  /spare-parts/{sparepart_uid}/machines:
+    get:
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SparePartMachine'
+            type: array
+      summary: Get spare-part -> machine list
+      tags:
+      - SparePartMachines
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      - description: Mapping payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.SparePartMachineCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create spare-part -> machine mapping
+      tags:
+      - SparePartMachines
+  /spare-parts/{sparepart_uid}/machines/{sparepartmachine_uid}:
+    delete:
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      - description: Machine UID
+        in: path
+        name: sparepartmachine_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete spare-part -> machine mapping
+      tags:
+      - SparePartMachines
+  /spare-parts/{sparepart_uid}/vendors:
+    get:
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/repo.SparePartVendorRow'
+            type: array
+      summary: Get vendors for a spare part
+      tags:
+      - SparePartVendor
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      - description: Vendor assignment payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SparePartVendorCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add vendor to spare part
+      tags:
+      - SparePartVendor
+  /spare-parts/{sparepart_uid}/vendors/{sparepartvendor_uid}:
+    delete:
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      - description: SparePartVendor UID
+        in: path
+        name: sparepartvendor_uid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      summary: Delete spare_part_vendor entry
+      tags:
+      - SparePartVendor
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: sparepart_uid
+        required: true
+        type: string
+      - description: SparePartVendor UID
+        in: path
+        name: sparepartvendor_uid
+        required: true
+        type: string
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SparePartVendorUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update spare_part_vendor entry
+      tags:
+      - SparePartVendor
+  /spare-parts/{uid}:
+    delete:
+      description: Delete a spare part by UID (JWT protected)
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete Spare Part
+      tags:
+      - SpareParts
+    get:
+      description: Get spare part by UID (JWT protected)
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SparePart'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get Spare Part
+      tags:
+      - SpareParts
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing spare part by UID (JWT protected)
+      parameters:
+      - description: Spare Part UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Spare part update payload
+        in: body
+        name: spare_part
+        required: true
+        schema:
+          $ref: '#/definitions/models.SparePartUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update Spare Part
+      tags:
+      - SpareParts
+  /types:
+    get:
+      description: Get list of types with optional category filter
+      parameters:
+      - description: Filter by category
+        in: query
+        name: category
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Type'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Types
+      tags:
+      - Types
+    post:
+      consumes:
+      - application/json
+      description: Create a new type (JWT protected)
+      parameters:
+      - description: Type payload
+        in: body
+        name: type
+        required: true
+        schema:
+          $ref: '#/definitions/models.TypeCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Type
+      tags:
+      - Types
+  /types/{uid}:
+    delete:
+      description: Delete a type by UID (JWT protected)
+      parameters:
+      - description: type UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete type
+      tags:
+      - Types
+    get:
+      description: Get machine by UID (JWT protected)
+      parameters:
+      - description: Machine UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Machine'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get Types
+      tags:
+      - Types
+    patch:
+      consumes:
+      - application/json
+      description: Update type (JWT protected)
+      parameters:
+      - description: type UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: Type update payload
+        in: body
+        name: type
+        required: true
+        schema:
+          $ref: '#/definitions/models.TypeUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Type
+      tags:
+      - Types
+  /types/category:
+    get:
+      description: Get list of types categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Types Categories
+      tags:
+      - Types
+  /vendors:
+    get:
+      description: Get list of vendors (JWT protected)
+      parameters:
+      - description: Filter by vendor type name
+        in: query
+        name: vendor_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Vendor'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get Vendors
+      tags:
+      - Vendors
+    post:
+      consumes:
+      - application/json
+      description: Create a new vendor (JWT protected)
+      parameters:
+      - description: Vendor payload
+        in: body
+        name: vendor
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create Vendor
+      tags:
+      - Vendors
+  /vendors/{id}:
+    delete:
+      description: Delete a vendor by id (JWT protected)
+      parameters:
+      - description: Vendor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete Vendor
+      tags:
+      - Vendors
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing vendor by id (JWT protected)
+      parameters:
+      - description: Vendor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Vendor update payload
+        in: body
+        name: vendor
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update Vendor
+      tags:
+      - Vendors
+  /vendors/{uid}:
+    get:
+      description: Get vendor by UID (JWT protected)
+      parameters:
+      - description: Vendor UID (UID)
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Vendor'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get Vendor
+      tags:
+      - Vendors
+  /vendors/{vendor_uid}/addresses:
+    get:
+      description: Get all addresses associated with a specific vendor (identified
+        by vendor UID in path)
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.VendorAddress'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: List Vendor Addresses
+      tags:
+      - VendorAddresses
+  /vendors/{vendor_uid}/addresses/{address_uid}:
+    patch:
+      consumes:
+      - application/json
+      description: Update a vendor address by vendor UID and address UID
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      - description: Address UID
+        in: path
+        name: address_uid
+        required: true
+        type: string
+      - description: Vendor address update payload
+        in: body
+        name: vendor_address
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorAddressUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: '{\"error\":\"Not found\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update Vendor Address
+      tags:
+      - VendorAddresses
+  /vendors/{vendor_uid}/contacts:
+    get:
+      description: Get all persons associated with a specific vendor (identified by
+        vendor UID in path)
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.VendorContact'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: List Vendor Persons
+      tags:
+      - VendorContacts
+  /vendors/{vendor_uid}/contacts/{contact_uid}:
+    patch:
+      consumes:
+      - application/json
+      description: Update a vendor contact by vendor UID and contact UID
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      - description: Contact UID
+        in: path
+        name: contact_uid
+        required: true
+        type: string
+      - description: Vendor contact update payload
+        in: body
+        name: vendor_contact
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorContactUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{\"uid\":\"550e8400-e29b-41d4-a716-446655440000\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: '{\"error\":\"Invalid request\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: '{\"error\":\"Not found\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{\"error\":\"Internal server error\"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update Vendor Contact
+      tags:
+      - VendorContacts
+  /vendors/{vendor_uid}/vendorsTypes:
+    get:
+      description: Retrieve all vendor types assigned to a vendor
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Vendor Types
+      tags:
+      - Vendor Types
+    post:
+      consumes:
+      - application/json
+      description: Assign a vendor type to a specific vendor using vendor_uid
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      - description: Vendor Type Request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.VendorType'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Assign Vendor Type
+      tags:
+      - Vendor Types
+  /vendors/{vendor_uid}/vendorsTypes/{vendorAssign_uid}:
+    delete:
+      description: Remove a specific vendor type assignment by vendorAssign_uid
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vendor_uid
+        required: true
+        type: string
+      - description: Vendor Assign UID
+        in: path
+        name: vendorAssign_uid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete Vendor Type
+      tags:
+      - Vendor Types
+  /vendors/{vid}/addresses:
+    post:
+      consumes:
+      - application/json
+      description: Create a new vendor address for a vendor (identified by vendor
+        UID in path)
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vid
+        required: true
+        type: string
+      - description: Vendor address payload
+        in: body
+        name: vendor_address
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorAddressCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Vendor Address
+      tags:
+      - VendorAddresses
+  /vendors/{vid}/addresses/{address_uid}:
+    delete:
+      description: Delete a vendor address by vendor UID and address UID
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vid
+        required: true
+        type: string
+      - description: Address UID
+        in: path
+        name: address_uid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Vendor Address
+      tags:
+      - VendorAddresses
+  /vendors/{vid}/contacts:
+    post:
+      consumes:
+      - application/json
+      description: Create a new vendor person for a vendor (identified by vendor UID
+        in path)
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vid
+        required: true
+        type: string
+      - description: Vendor contact payload
+        in: body
+        name: vendor_contact
+        required: true
+        schema:
+          $ref: '#/definitions/models.VendorContactCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Vendor Person
+      tags:
+      - VendorContacts
+  /vendors/{vid}/contacts/{contact_uid}:
+    delete:
+      description: Delete a vendor person by vendor UID and person UID
+      parameters:
+      - description: Vendor UID
+        in: path
+        name: vid
+        required: true
+        type: string
+      - description: Person UID
+        in: path
+        name: contact_uid
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Vendor Person
+      tags:
+      - VendorContacts
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS entity_files;
+DROP TABLE IF EXISTS files;

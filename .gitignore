@@ -1,0 +1,52 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Output of the go build command
+*.out
+
+# Build and temporary directories
+bin/
+build/
+# dist/
+tmp/
+temp/
+*.log
+
+# Dependency directories (for vendoring)
+vendor/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# macOS files
+.DS_Store
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Environment and config files
+.env
+.env.*
+
+# Coverage and profiling outputs
+coverage.*
+*.prof
+*.pprof
+
+# Swagger and docs output (if generated)
+# docs/
+# swagger/
+# dist/
+uploads/
