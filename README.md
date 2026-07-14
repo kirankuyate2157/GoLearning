@@ -36,6 +36,9 @@ go run main.go
 - `docs/DEPLOYMENT.md` - environment promotion and deployment workflow
 - `docs/MIGRATION.md` - database migration patterns and Postgres commands
 - `docs/README.md` - documentation index
+- `docs/STAGE2_DEVELOPMENT_PLAN.md` - Stage 2 industrial automation feature roadmap and architecture plan
+- `docs/STAGE2_PRODUCTION_ORDERS_AND_JOBS.md` - Reference guide for the first Stage 2 production-order and job-management workflow
+- `docs/STAGE2_BOMS_AND_ROUTING.md` - Reference guide for the BOM and routing workflow in Stage 2
 
 ## Notes
 
