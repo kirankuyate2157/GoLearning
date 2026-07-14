@@ -10,5 +10,6 @@ This directory holds operation and delivery guides for the industrial automation
 - `STAGE2_BOMS_AND_ROUTING.md` - Reference guide for the BOM and routing workflow in Stage 2.
 - `STAGE2_INVENTORY_AND_WIP.md` - Reference guide for inventory movement and WIP tracking in Stage 2.
 - `STAGE2_MACHINE_SCHEDULING_AND_DISPATCH.md` - Reference guide for machine scheduling and job dispatch in Stage 2.
+- `STAGE2_PROCUREMENT_AND_PURCHASING.md` - Reference guide for procurement, purchase orders, and vendor purchasing workflows in Stage 2.
 
 Use the root `README.md` for a quick project overview and local fast-start instructions.

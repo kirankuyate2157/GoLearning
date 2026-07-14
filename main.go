@@ -90,6 +90,7 @@ func main() {
 	routes.ProductionRoutes(e)
 	routes.BOMRoutes(e)
 	routes.InventoryRoutes(e)
+	routes.PurchaseOrderRoutes(e)
 
 	// Serve static files from dist directory, fallback to local "dist" for dev environments
 	distDir := os.Getenv("DIST_DIR")
