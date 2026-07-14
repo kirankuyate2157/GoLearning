@@ -86,12 +86,12 @@ func main() {
 	routes.MaintenanceRoutes(e)
 	routes.SettingRoutes(e)
 	routes.FileRoutes(e)
+	routes.HealthRoutes(e)
 
-	// Serve static files from dist directory
+	// Serve static files from dist directory, fallback to local "dist" for dev environments
 	distDir := os.Getenv("DIST_DIR")
 	if distDir == "" {
-		// Serve static files
-		panic("DIST_DIR env variable not set")
+		distDir = "dist"
 	}
 	e.Static("/", distDir)
 

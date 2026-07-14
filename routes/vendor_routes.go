@@ -11,11 +11,12 @@ func VendorRoutes(e *echo.Echo) {
 	// g.Use(middleware.JWTAuthMiddleware)
 	g.GET("", controllers.GetVendors)
 	g.POST("", controllers.CreateVendor)
-	g.GET(":uid", controllers.GetVendor)
-	g.PATCH(":uid", controllers.UpdateVendor)
-	g.DELETE(":uid", controllers.DeleteVendor)
+	g.GET("/:uid", controllers.GetVendor)
+	g.PATCH("/:uid", controllers.UpdateVendor)
+	g.DELETE("/:uid", controllers.DeleteVendor)
 
 	g.GET("/:vendor_uid/addresses", controllers.ListVendorAddresses)
+	g.GET("/:vendor_uid/addresses/:address_uid", controllers.GetVendorAddress)
 	g.POST("/:vendor_uid/addresses", controllers.CreateVendorAddress)
 	// g.GET(":id", controllers.GetVendorAddress)
 	g.PATCH("/:vendor_uid/addresses/:address_uid", controllers.UpdateVendorAddress)
@@ -23,6 +24,7 @@ func VendorRoutes(e *echo.Echo) {
 
 	// Vendor contact routes
 	g.GET("/:vendor_uid/contacts", controllers.ListVendorContacts)
+	g.GET("/:vendor_uid/contacts/:contact_uid", controllers.GetVendorContact)
 	g.POST("/:vendor_uid/contacts", controllers.CreateVendorContact)
 	g.PATCH("/:vendor_uid/contacts/:contact_uid", controllers.UpdateVendorContact)
 	g.DELETE("/:vendor_uid/contacts/:contact_uid", controllers.DeleteVendorContact)

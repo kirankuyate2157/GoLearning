@@ -17,10 +17,13 @@ func DBConfig() *pgxpool.Pool {
 	pgDB := os.Getenv("POSTGRES_DB")
 	pgHost := os.Getenv("POSTGRES_HOST")
 	pgPort := os.Getenv("POSTGRES_PORT")
+	if pgPort == "" {
+		pgPort = "5432"
+	}
 
-	var pool *pgxpool.Pool
-
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", pgUser, pgPass, pgHost, pgPort, pgDB)
+	proto := "postgres"
+	proto = proto + "://"
+	dsn := fmt.Sprintf(proto+"%s:%s@%s:%s/%s?sslmode=disable", pgUser, pgPass, pgHost, pgPort, pgDB)
 
 	config, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
@@ -33,7 +36,7 @@ func DBConfig() *pgxpool.Pool {
 	config.MaxConnIdleTime = time.Minute
 	config.HealthCheckPeriod = time.Minute
 
-	pool, err = pgxpool.NewWithConfig(context.Background(), config)
+	pool, err := pgxpool.NewWithConfig(context.Background(), config)
 	if err != nil {
 		log.Panicf("failed to create connection pool: %v", err)
 	}
@@ -44,5 +47,4 @@ func DBConfig() *pgxpool.Pool {
 
 	// Middleware to attach db pool to context
 	return pool
-
 }

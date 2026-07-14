@@ -68,6 +68,67 @@ func ListVendorContacts(c echo.Context) error {
 	return c.JSON(http.StatusOK, out)
 }
 
+// GetVendorContact godoc
+// @Summary Get Vendor Contact
+// @Description Get details for a specific vendor contact by vendor UID and contact UID
+// @Tags VendorContacts
+// @Produce json
+// @Param vendor_uid path string true "Vendor UID"
+// @Param contact_uid path string true "Contact UID"
+// @Success 200 {object} models.VendorContact
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /vendors/{vendor_uid}/contacts/{contact_uid} [get]
+func GetVendorContact(c echo.Context) error {
+	vuid := strings.Trim(c.Param("vendor_uid"), "/")
+	contactUID := strings.Trim(c.Param("contact_uid"), "/")
+	if vuid == "" || contactUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid uid"})
+	}
+
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "database not found in context"})
+	}
+	pool := dbi.(*pgxpool.Pool)
+
+	_, err := dbrepo.GetVendorByUID(pool, vuid)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "vendor not found"})
+		}
+		c.Logger().Errorf("GetVendorContact vendor lookup error: %v", err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query vendor: %v", err)})
+	}
+
+	row, err := dbrepo.GetVendorContactByUID(pool, contactUID)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "contact not found"})
+		}
+		c.Logger().Errorf("GetVendorContact db error: %v", err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query contact: %v", err)})
+	}
+
+	var v models.VendorContact
+	v.UID = ""
+	if row.UID.Valid {
+		v.UID = row.UID.String
+	}
+	if row.Name.Valid {
+		v.Name = row.Name.String
+	}
+	if row.Email.Valid {
+		v.Email = row.Email.String
+	}
+	if row.Mobile.Valid {
+		v.Mobile = row.Mobile.String
+	}
+
+	return c.JSON(http.StatusOK, v)
+}
+
 // CreateVendorContact godoc
 // @Summary Create Vendor Person
 // @Description Create a new vendor person for a vendor (identified by vendor UID in path)
