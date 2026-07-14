@@ -64,3 +64,11 @@ type MachineUpdateRequest struct {
 	ConsumableCost        *float64 `json:"consumable_cost"`
 	WagesPerHour          *float64 `json:"wages_per_hour"`
 }
+
+// MachineWorkload provides a machine-centric view of scheduled and active jobs.
+type MachineWorkload struct {
+	MachineUID      string         `json:"machine_uid"`
+	JobCount        int            `json:"job_count"`
+	JobStatusCounts map[string]int `json:"job_status_counts"`
+	UpcomingJobs    []Job          `json:"upcoming_jobs,omitempty"`
+}

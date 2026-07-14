@@ -294,6 +294,150 @@ func GetJobs(c echo.Context) error {
 	return c.JSON(http.StatusOK, out)
 }
 
+func GetMachineWorkload(c echo.Context) error {
+	machineUID := strings.TrimSpace(c.Param("uid"))
+	if machineUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid machine uid"})
+	}
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusOK, models.MachineWorkload{JobStatusCounts: map[string]int{}})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	rows, err := dbrepo.ListJobsByMachineUID(pool, machineUID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query machine workload: %v", err)})
+	}
+
+	workload := models.MachineWorkload{MachineUID: machineUID, JobStatusCounts: map[string]int{}}
+	for i, r := range rows {
+		status := ""
+		if r.Status.Valid {
+			status = r.Status.String
+		}
+		workload.JobStatusCounts[status]++
+		workload.JobCount++
+
+		if i >= 5 {
+			continue
+		}
+
+		job := models.Job{UID: uuidString(r.UID), JobNumber: r.JobNumber, Quantity: r.Quantity}
+		if r.OrderUID.Valid {
+			job.OrderUID = r.OrderUID.String()
+		}
+		if r.OrderNumber.Valid {
+			job.OrderNumber = r.OrderNumber.String
+		}
+		if r.MachineUID.Valid {
+			job.MachineUID = r.MachineUID.String()
+		}
+		if r.MachineName.Valid {
+			job.MachineName = r.MachineName.String
+		}
+		if r.PartName.Valid {
+			job.PartName = r.PartName.String
+		}
+		if r.Priority.Valid {
+			job.Priority = r.Priority.String
+		}
+		if r.Status.Valid {
+			job.Status = r.Status.String
+		}
+		if r.ScheduledStart.Valid {
+			t := r.ScheduledStart.Time
+			job.ScheduledStart = &t
+		}
+		if r.ScheduledEnd.Valid {
+			t := r.ScheduledEnd.Time
+			job.ScheduledEnd = &t
+		}
+		if r.Notes.Valid {
+			job.Notes = r.Notes.String
+		}
+		if r.CreatedAt.Valid {
+			t := r.CreatedAt.Time
+			job.CreatedAt = &t
+		}
+		if r.UpdatedAt.Valid {
+			t := r.UpdatedAt.Time
+			job.UpdatedAt = &t
+		}
+		workload.UpcomingJobs = append(workload.UpcomingJobs, job)
+	}
+
+	return c.JSON(http.StatusOK, workload)
+}
+
+func DispatchJob(c echo.Context) error {
+	uid := strings.TrimSpace(c.Param("uid"))
+	if uid == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid job uid"})
+	}
+
+	var req models.JobUpdateRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
+	}
+	if req.Status == nil && req.MachineUID == nil && req.ScheduledStart == nil && req.ScheduledEnd == nil && req.Notes == nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "at least one dispatch field is required"})
+	}
+
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "db not configured"})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	var machineID *int
+	if req.MachineUID != nil {
+		machineUID := strings.TrimSpace(*req.MachineUID)
+		if machineUID == "" {
+			req.MachineUID = nil
+		} else {
+			machineRow, err := dbrepo.GetMachineByUID(pool, machineUID)
+			if err != nil {
+				if err == pgx.ErrNoRows {
+					return c.JSON(http.StatusNotFound, echo.Map{"error": "machine uid not found"})
+				}
+				return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("machine lookup error: %v", err)})
+			}
+			machineID = &machineRow.ID
+		}
+	}
+
+	if _, err := dbrepo.GetJobByUID(pool, uid); err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "job not found"})
+		}
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("job lookup error: %v", err)})
+	}
+	if err := dbrepo.UpdateJob(pool, uid, req, nil, machineID); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
+	}
+
+	if req.Status != nil && strings.TrimSpace(*req.Status) != "" {
+		logReq := models.JobExecutionLogCreateRequest{
+			Action:       "dispatch",
+			Status:       strings.TrimSpace(*req.Status),
+			OperatorName: "system dispatcher",
+			Note:         "Job dispatched and status updated",
+		}
+		if _, err := dbrepo.CreateJobExecutionLog(pool, uid, logReq); err != nil {
+			return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("failed to create dispatch execution log: %v", err)})
+		}
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{"uid": uid})
+}
+
 func GetMachineJobs(c echo.Context) error {
 	machineUID := strings.TrimSpace(c.Param("uid"))
 	if machineUID == "" {

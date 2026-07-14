@@ -104,7 +104,6 @@ func ListAlerts(pool *pgxpool.Pool, qp AlertsFilters) ([]AlertsRow, error) {
 	var filterValues []any
 	idx := 1
 
-
 	query := `SELECT a.id, 
 					a.uid, 
 					a.name, 

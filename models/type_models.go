@@ -9,13 +9,13 @@ type Type struct {
 
 // TypeCreateRequest payload for creating a type
 type TypeCreateRequest struct {
-	Name             string `json:"name" validate:"required"`
-	Description      string `json:"description,omitempty"`
-	Category         string `json:"category" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Description string `json:"description,omitempty"`
+	Category    string `json:"category" validate:"required"`
 }
 
 type TypeUpdateRequest struct {
-    Name        *string `json:"name,omitempty"`
-    Description *string `json:"description,omitempty"`
-    Category    *string `json:"category,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Category    *string `json:"category,omitempty"`
 }

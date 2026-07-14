@@ -21,7 +21,7 @@ import (
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /settings/alerts/types [get]
-func ListAlertsTypes (c echo.Context) error {
+func ListAlertsTypes(c echo.Context) error {
 	dbi := c.Get("db")
 	if dbi == nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{
@@ -51,17 +51,17 @@ func ListAlertsTypes (c echo.Context) error {
 	for _, r := range rows {
 		var ft models.AlertsTypesGet
 
-        // UID
+		// UID
 		if r.UID.Valid {
 			ft.UID = r.UID.String
 		}
 
-        // Name
+		// Name
 		if r.Name.Valid {
 			ft.Name = r.Name.String
 		}
 
-        // Description
+		// Description
 		if r.Description.Valid {
 			ft.Description = r.Description.String
 		}
@@ -108,7 +108,7 @@ func ListAlerts(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{
 			"error": "database not found in context",
 		})
-	} 
+	}
 
 	pool, ok := dbi.(*pgxpool.Pool)
 	if !ok {
@@ -172,8 +172,6 @@ func ListAlerts(c echo.Context) error {
 	return c.JSON(http.StatusOK, output)
 }
 
-
-
 // CreateAlert godoc
 // @Summary Create Alert
 // @Description Create a new  alert
@@ -200,7 +198,6 @@ func CreateAlerts(c echo.Context) error {
 		c.Logger().Error("CreateAlert: invalid db object in context")
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
 	}
-
 
 	alertTypeQP := dbrepo.AlertsTypeFilters{}
 	alertTypeQP.UID = &req.TypeUID
@@ -261,7 +258,7 @@ func UpdateAlert(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
 	}
 
-	// Check alert exists 
+	// Check alert exists
 	queryParams := dbrepo.AlertsFilters{}
 	queryParams.UID = &uid
 
@@ -277,8 +274,7 @@ func UpdateAlert(c echo.Context) error {
 
 	alertID := alertList[0].ID
 
-
-	// Get TypeID 
+	// Get TypeID
 	alertTypeQP := dbrepo.AlertsTypeFilters{}
 	alertTypeQP.UID = req.TypeUID
 
@@ -298,7 +294,7 @@ func UpdateAlert(c echo.Context) error {
 		Structure: req.Structure,
 	}
 
-	if err := dbrepo.UpdateAlert(pool, alertID,data); err != nil {
+	if err := dbrepo.UpdateAlert(pool, alertID, data); err != nil {
 		c.Logger().Errorf("UpdateAlert db exec error: %v", err)
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": fmt.Sprintf("db update feed alert: %v", err)})
 	}
@@ -332,10 +328,10 @@ func DeleteAlert(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
 	}
 
-	// Check alert exists 
+	// Check alert exists
 	queryParams := dbrepo.AlertsFilters{}
 	queryParams.UID = &uid
-	
+
 	alertList, err := dbrepo.ListAlerts(pool, queryParams)
 	if err != nil {
 		c.Logger().Errorf("ListAlerts db error: %v", err)

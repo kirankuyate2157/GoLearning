@@ -18,8 +18,9 @@ This stage focuses on:
 ### Machine Job Queries
 
 - `GET /api/machines/:uid/jobs` - List jobs assigned to a specific machine.
+- `GET /api/machines/:uid/workload` - Summary workload view for a machine: job counts by status and a short list of upcoming jobs.
 
-This endpoint helps planners and operators view the queue for a machine.
+These endpoints help planners and operators view the queue for a machine and a concise workload summary for dispatch decisions.
 
 ### Production Order Job Queries
 
