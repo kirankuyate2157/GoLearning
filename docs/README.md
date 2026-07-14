@@ -12,5 +12,6 @@ This directory holds operation and delivery guides for the industrial automation
 - `STAGE2_MACHINE_SCHEDULING_AND_DISPATCH.md` - Reference guide for machine scheduling and job dispatch in Stage 2.
 - `STAGE2_PROCUREMENT_AND_PURCHASING.md` - Reference guide for procurement, purchase orders, and vendor purchasing workflows in Stage 2.
 - `STAGE2_QUALITY_AND_TRACEABILITY.md` - Reference guide for quality inspection and traceability workflows in Stage 2.
+- `STAGE2_SHOPFLOOR_EXECUTION_AND_OPERATOR_WORKFLOWS.md` - Reference guide for shop-floor execution and operator log workflows in Stage 2.
 
 Use the root `README.md` for a quick project overview and local fast-start instructions.

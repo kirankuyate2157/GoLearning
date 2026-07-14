@@ -45,6 +45,20 @@ type JobRow struct {
 	UpdatedAt      pgtype.Timestamp
 }
 
+type JobExecutionLogRow struct {
+	ID           int
+	UID          pgtype.UUID
+	JobUID       pgtype.UUID
+	MachineUID   pgtype.UUID
+	Action       string
+	Status       pgtype.Text
+	OperatorName pgtype.Text
+	Note         pgtype.Text
+	LoggedAt     pgtype.Timestamp
+	CreatedAt    pgtype.Timestamp
+	UpdatedAt    pgtype.Timestamp
+}
+
 func ListProductionOrders(pool *pgxpool.Pool) ([]ProductionOrderRow, error) {
 	ctx := context.Background()
 	rows, err := pool.Query(ctx, `SELECT id, uid, order_number, customer_name, reference, order_date, required_date, priority, status, notes, created_at, updated_at FROM production_orders ORDER BY id ASC`)
@@ -339,6 +353,66 @@ func DeleteJob(pool *pgxpool.Pool, uid string) error {
 	return err
 }
 
+func ListJobExecutionLogsByJobUID(pool *pgxpool.Pool, jobUID string) ([]JobExecutionLogRow, error) {
+	ctx := context.Background()
+	rows, err := pool.Query(ctx, `SELECT l.id, l.uid, j.uid AS job_uid, m.uid AS machine_uid, l.action, l.status, l.operator_name, l.note, l.logged_at, l.created_at, l.updated_at FROM job_execution_logs l JOIN jobs j ON l.job_id = j.id LEFT JOIN machines m ON l.machine_id = m.id WHERE j.uid = $1 ORDER BY l.id ASC`, jobUID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []JobExecutionLogRow
+	for rows.Next() {
+		var r JobExecutionLogRow
+		if err := rows.Scan(&r.ID, &r.UID, &r.JobUID, &r.MachineUID, &r.Action, &r.Status, &r.OperatorName, &r.Note, &r.LoggedAt, &r.CreatedAt, &r.UpdatedAt); err != nil {
+			return nil, err
+		}
+		out = append(out, r)
+	}
+	return out, nil
+}
+
+func CreateJobExecutionLog(pool *pgxpool.Pool, jobUID string, req models.JobExecutionLogCreateRequest) (string, error) {
+	ctx := context.Background()
+	tx, err := pool.Begin(ctx)
+	if err != nil {
+		return "", err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback(ctx)
+		}
+	}()
+
+	var jobID int
+	var machineID pgtype.Int4
+	if err = tx.QueryRow(ctx, `SELECT id, machine_id FROM jobs WHERE uid = $1`, jobUID).Scan(&jobID, &machineID); err != nil {
+		return "", err
+	}
+
+	loggedAt, err := nullableTimestamp(req.LoggedAt)
+	if err != nil {
+		return "", err
+	}
+
+	if strings.TrimSpace(req.Status) != "" {
+		if _, err = tx.Exec(ctx, `UPDATE jobs SET status = $1, updated_at = NOW() WHERE id = $2`, strings.TrimSpace(req.Status), jobID); err != nil {
+			return "", err
+		}
+	}
+
+	var uid string
+	err = tx.QueryRow(ctx, `INSERT INTO job_execution_logs (job_id, machine_id, action, status, operator_name, note, logged_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING uid`, jobID, nullableInt4(machineID), strings.TrimSpace(req.Action), strings.TrimSpace(req.Status), strings.TrimSpace(req.OperatorName), strings.TrimSpace(req.Note), loggedAt).Scan(&uid)
+	if err != nil {
+		return "", err
+	}
+
+	if err = tx.Commit(ctx); err != nil {
+		return "", err
+	}
+	return uid, nil
+}
+
 func GetProductionOrderByUIDFromID(pool *pgxpool.Pool, id int32) (string, error) {
 	ctx := context.Background()
 	var uid string
@@ -370,4 +444,11 @@ func nullableDate(value string) (interface{}, error) {
 		return nil, fmt.Errorf("invalid date %q: %w", value, err)
 	}
 	return parsed, nil
+}
+
+func nullableInt4(value pgtype.Int4) interface{} {
+	if !value.Valid {
+		return nil
+	}
+	return int(value.Int32)
 }

@@ -21,4 +21,6 @@ func ProductionRoutes(e *echo.Echo) {
 	jobsGroup.GET("/:uid", controllers.GetJob)
 	jobsGroup.PATCH("/:uid", controllers.UpdateJob)
 	jobsGroup.DELETE("/:uid", controllers.DeleteJob)
+	jobsGroup.GET("/:uid/logs", controllers.GetJobExecutionLogs)
+	jobsGroup.POST("/:uid/logs", controllers.CreateJobExecutionLog)
 }

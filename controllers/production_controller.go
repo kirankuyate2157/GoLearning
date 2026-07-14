@@ -450,6 +450,86 @@ func GetJob(c echo.Context) error {
 	return c.JSON(http.StatusOK, job)
 }
 
+func GetJobExecutionLogs(c echo.Context) error {
+	jobUID := strings.TrimSpace(c.Param("uid"))
+	if jobUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid job uid"})
+	}
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusOK, []models.JobExecutionLog{})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	rows, err := dbrepo.ListJobExecutionLogsByJobUID(pool, jobUID)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "job not found"})
+		}
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query job execution logs: %v", err)})
+	}
+
+	out := make([]models.JobExecutionLog, 0, len(rows))
+	for _, r := range rows {
+		logEntry := models.JobExecutionLog{UID: uuidString(r.UID), Action: r.Action, Status: r.Status.String, OperatorName: r.OperatorName.String, Note: r.Note.String}
+		if r.JobUID.Valid {
+			logEntry.JobUID = r.JobUID.String()
+		}
+		if r.MachineUID.Valid {
+			logEntry.MachineUID = r.MachineUID.String()
+		}
+		if r.LoggedAt.Valid {
+			t := r.LoggedAt.Time
+			logEntry.LoggedAt = &t
+		}
+		if r.CreatedAt.Valid {
+			t := r.CreatedAt.Time
+			logEntry.CreatedAt = &t
+		}
+		if r.UpdatedAt.Valid {
+			t := r.UpdatedAt.Time
+			logEntry.UpdatedAt = &t
+		}
+		out = append(out, logEntry)
+	}
+	return c.JSON(http.StatusOK, out)
+}
+
+func CreateJobExecutionLog(c echo.Context) error {
+	jobUID := strings.TrimSpace(c.Param("uid"))
+	if jobUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid job uid"})
+	}
+	var req models.JobExecutionLogCreateRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
+	}
+	if strings.TrimSpace(req.Action) == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "action is required"})
+	}
+
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "db not configured"})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	uid, err := dbrepo.CreateJobExecutionLog(pool, jobUID, req)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "job not found"})
+		}
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
+	}
+	return c.JSON(http.StatusCreated, echo.Map{"uid": uid})
+}
+
 func CreateJob(c echo.Context) error {
 	var req models.JobCreateRequest
 	if err := c.Bind(&req); err != nil {
