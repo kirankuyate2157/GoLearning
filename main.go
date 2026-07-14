@@ -32,6 +32,7 @@ func main() {
 	pool := db.DBConfig()
 	defer pool.Close()
 
+	// initialize the Echo web server instance
 	e := echo.New()
 
 	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
