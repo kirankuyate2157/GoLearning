@@ -3,6 +3,7 @@ package repo
 import (
 	"app/models"
 	"context"
+	"database/sql"
 	"fmt"
 	"strings"
 	"time"
@@ -199,6 +200,78 @@ func ListJobs(pool *pgxpool.Pool) ([]JobRow, error) {
 		out = append(out, r)
 	}
 	return out, nil
+}
+
+func GetProductionOrderStatusCounts(pool *pgxpool.Pool) (map[string]int, error) {
+	ctx := context.Background()
+	rows, err := pool.Query(ctx, `SELECT COALESCE(status, '') AS status, COUNT(*) FROM production_orders GROUP BY status`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	counts := map[string]int{}
+	for rows.Next() {
+		var status string
+		var count int
+		if err := rows.Scan(&status, &count); err != nil {
+			return nil, err
+		}
+		counts[status] = count
+	}
+	return counts, nil
+}
+
+func GetJobStatusCounts(pool *pgxpool.Pool) (map[string]int, error) {
+	ctx := context.Background()
+	rows, err := pool.Query(ctx, `SELECT COALESCE(status, '') AS status, COUNT(*) FROM jobs GROUP BY status`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	counts := map[string]int{}
+	for rows.Next() {
+		var status string
+		var count int
+		if err := rows.Scan(&status, &count); err != nil {
+			return nil, err
+		}
+		counts[status] = count
+	}
+	return counts, nil
+}
+
+func GetWIPItemStatusCounts(pool *pgxpool.Pool) (map[string]int, error) {
+	ctx := context.Background()
+	rows, err := pool.Query(ctx, `SELECT COALESCE(status, '') AS status, COUNT(*) FROM wip_items GROUP BY status`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	counts := map[string]int{}
+	for rows.Next() {
+		var status string
+		var count int
+		if err := rows.Scan(&status, &count); err != nil {
+			return nil, err
+		}
+		counts[status] = count
+	}
+	return counts, nil
+}
+
+func GetAverageCompletedJobDurationHours(pool *pgxpool.Pool) (float64, error) {
+	ctx := context.Background()
+	var avg sql.NullFloat64
+	if err := pool.QueryRow(ctx, `SELECT AVG(EXTRACT(EPOCH FROM (COALESCE(updated_at, NOW()) - created_at)) / 3600.0) FROM jobs WHERE status = 'completed'`).Scan(&avg); err != nil {
+		return 0, err
+	}
+	if !avg.Valid {
+		return 0, nil
+	}
+	return avg.Float64, nil
 }
 
 func ListJobsByMachineUID(pool *pgxpool.Pool, machineUID string) ([]JobRow, error) {

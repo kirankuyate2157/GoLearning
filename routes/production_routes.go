@@ -14,6 +14,7 @@ func ProductionRoutes(e *echo.Echo) {
 	productionGroup.PATCH("/:uid", controllers.UpdateProductionOrder)
 	productionGroup.DELETE("/:uid", controllers.DeleteProductionOrder)
 	productionGroup.GET("/:uid/jobs", controllers.GetProductionOrderJobs)
+	productionGroup.GET("/metrics", controllers.GetProductionMetrics)
 
 	jobsGroup := e.Group("/api/jobs")
 	jobsGroup.GET("", controllers.GetJobs)

@@ -123,6 +123,50 @@ func GetProductionOrder(c echo.Context) error {
 	return c.JSON(http.StatusOK, order)
 }
 
+func GetProductionMetrics(c echo.Context) error {
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusOK, models.ProductionMetrics{})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	metrics := models.ProductionMetrics{}
+	var err error
+
+	metrics.ProductionOrderStatusCounts, err = dbrepo.GetProductionOrderStatusCounts(pool)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query production order status counts: %v", err)})
+	}
+	metrics.JobStatusCounts, err = dbrepo.GetJobStatusCounts(pool)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query job status counts: %v", err)})
+	}
+	metrics.WIPItemStatusCounts, err = dbrepo.GetWIPItemStatusCounts(pool)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query wip item status counts: %v", err)})
+	}
+
+	for _, v := range metrics.ProductionOrderStatusCounts {
+		metrics.ProductionOrderCount += v
+	}
+	for _, v := range metrics.JobStatusCounts {
+		metrics.JobCount += v
+	}
+	for _, v := range metrics.WIPItemStatusCounts {
+		metrics.WIPItemCount += v
+	}
+
+	metrics.AverageJobCompletionHours, err = dbrepo.GetAverageCompletedJobDurationHours(pool)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query average job duration: %v", err)})
+	}
+
+	return c.JSON(http.StatusOK, metrics)
+}
+
 func CreateProductionOrder(c echo.Context) error {
 	var req models.ProductionOrderCreateRequest
 	if err := c.Bind(&req); err != nil {

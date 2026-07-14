@@ -87,3 +87,14 @@ type JobUpdateRequest struct {
 	ScheduledEnd   *string  `json:"scheduled_end,omitempty"`
 	Notes          *string  `json:"notes,omitempty"`
 }
+
+// ProductionMetrics summarizes production and execution KPIs.
+type ProductionMetrics struct {
+	ProductionOrderCount      int            `json:"production_order_count"`
+	ProductionOrderStatusCounts map[string]int `json:"production_order_status_counts"`
+	JobCount                  int            `json:"job_count"`
+	JobStatusCounts           map[string]int `json:"job_status_counts"`
+	WIPItemCount              int            `json:"wip_item_count"`
+	WIPItemStatusCounts       map[string]int `json:"wip_item_status_counts"`
+	AverageJobCompletionHours float64        `json:"average_job_completion_hours,omitempty"`
+}
