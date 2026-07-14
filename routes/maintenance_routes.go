@@ -59,8 +59,8 @@ func MaintenanceRoutes(e *echo.Echo) {
 	// Maintenance Schedule Endpoints
 	g.GET("/schedules", controllers.ListMaintenanceSchedules)
 	g.POST("/schedules", controllers.CreateMaintenanceSchedule)
-	// g.GET("/schedules/:uid", controllers.GetMaintenanceSchedule)
-	// g.PATCH("/schedules/:uid", controllers.UpdateMaintenanceSchedule)
+	g.GET("/schedules/:uid", controllers.GetMaintenanceSchedule)
+	g.PATCH("/schedules/:uid", controllers.UpdateMaintenanceSchedule)
 	g.DELETE("/schedules/:uid", controllers.DeleteMaintenanceSchedule)
 
 	// Maintenance Schedule Question Endpoints

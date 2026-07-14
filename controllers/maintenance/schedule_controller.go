@@ -71,6 +71,56 @@ func ListMaintenanceSchedules(c echo.Context) error {
 	return c.JSON(http.StatusOK, out)
 }
 
+// GetMaintenanceSchedule godoc
+// @Summary Get Maintenance Schedule
+// @Description Get a maintenance schedule by UID
+// @Tags MaintenanceSchedules
+// @Produce json
+// @Param uid path string true "Schedule UID"
+// @Success 200 {object} models.MaintenanceSchedule
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /maintenance/schedules/{uid} [get]
+func GetMaintenanceSchedule(c echo.Context) error {
+	uid := strings.Trim(c.Param("uid"), "/")
+	if uid == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid id"})
+	}
+
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "database not found in context"})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		c.Logger().Error("GetMaintenanceSchedule: invalid db object in context")
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	rows, err := dbrepo.GetMaintenanceSchedule(pool, models.MaintenanceScheduleParams{UID: uid})
+	if err != nil {
+		c.Logger().Errorf("GetMaintenanceSchedule db error: %v", err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query schedule: %v", err)})
+	}
+	if len(rows) == 0 {
+		return c.JSON(http.StatusNotFound, echo.Map{"error": "schedule not found"})
+	}
+
+	r := rows[0]
+	return c.JSON(http.StatusOK, models.MaintenanceSchedule{
+		UID:                    r.UID,
+		MaintenanceTemplateUID: r.MaintenanceTemplateUID,
+		MachineUID:             r.MachineUID,
+		StartTimestamp:         r.StartTimestamp,
+		EndTimestamp:           r.EndTimestamp,
+		Findings:               r.Findings,
+		Status:                 r.Status,
+		StartedOn:              r.StartedOn,
+		EndedOn:                r.EndedOn,
+	})
+}
+
 // CreateMaintenanceSchedule godoc
 // @Summary Create Maintenance Schedule
 // @Description Create a new maintenance schedule

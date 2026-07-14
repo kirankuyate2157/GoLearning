@@ -89,6 +89,87 @@ func ListVendorAddresses(c echo.Context) error {
 	return c.JSON(http.StatusOK, out)
 }
 
+// GetVendorAddress godoc
+// @Summary Get Vendor Address
+// @Description Get details for a specific vendor address by vendor UID and address UID
+// @Tags VendorAddresses
+// @Produce json
+// @Param vendor_uid path string true "Vendor UID"
+// @Param address_uid path string true "Address UID"
+// @Success 200 {object} models.VendorAddress
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /vendors/{vendor_uid}/addresses/{address_uid} [get]
+func GetVendorAddress(c echo.Context) error {
+	vuid := strings.Trim(c.Param("vendor_uid"), "/")
+	addressUID := strings.Trim(c.Param("address_uid"), "/")
+	if vuid == "" || addressUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid uid"})
+	}
+
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "database not found in context"})
+	}
+	pool := dbi.(*pgxpool.Pool)
+
+	_, err := dbrepo.GetVendorByUID(pool, vuid)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "vendor not found"})
+		}
+		c.Logger().Errorf("GetVendorAddress vendor lookup error: %v", err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query vendor: %v", err)})
+	}
+
+	row, err := dbrepo.GetVendorAddressByUID(pool, addressUID)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "address not found"})
+		}
+		c.Logger().Errorf("GetVendorAddress db error: %v", err)
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query address: %v", err)})
+	}
+
+	var v models.VendorAddress
+	v.UID = ""
+	if row.UID.Valid {
+		v.UID = row.UID.String
+	}
+	v.IsPrimary = row.IsPrimary
+	if row.CreatedAt.Valid {
+		t := row.CreatedAt.Time
+		v.CreatedAt = &t
+	}
+	if row.AddressLine1.Valid {
+		v.AddressLine1 = row.AddressLine1.String
+	}
+	if row.AddressLine2.Valid {
+		v.AddressLine2 = row.AddressLine2.String
+	}
+	if row.AddressLine3.Valid {
+		v.AddressLine3 = row.AddressLine3.String
+	}
+	if row.Landmark.Valid {
+		v.Landmark = row.Landmark.String
+	}
+	if row.City.Valid {
+		v.City = row.City.String
+	}
+	if row.State.Valid {
+		v.State = row.State.String
+	}
+	if row.Country.Valid {
+		v.Country = row.Country.String
+	}
+	if row.PinCode.Valid {
+		v.PinCode = row.PinCode.String
+	}
+
+	return c.JSON(http.StatusOK, v)
+}
+
 // // Get vendor address
 // func GetVendorAddress(c echo.Context) error {
 // 	idStr := c.Param("id")
