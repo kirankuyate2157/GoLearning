@@ -250,6 +250,140 @@ func GetJobs(c echo.Context) error {
 	return c.JSON(http.StatusOK, out)
 }
 
+func GetMachineJobs(c echo.Context) error {
+	machineUID := strings.TrimSpace(c.Param("uid"))
+	if machineUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid machine uid"})
+	}
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusOK, []models.Job{})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	rows, err := dbrepo.ListJobsByMachineUID(pool, machineUID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query machine jobs: %v", err)})
+	}
+
+	out := make([]models.Job, 0, len(rows))
+	for _, r := range rows {
+		job := models.Job{UID: uuidString(r.UID), JobNumber: r.JobNumber, Quantity: r.Quantity}
+		if r.OrderUID.Valid {
+			job.OrderUID = r.OrderUID.String()
+		}
+		if r.OrderNumber.Valid {
+			job.OrderNumber = r.OrderNumber.String
+		}
+		if r.MachineUID.Valid {
+			job.MachineUID = r.MachineUID.String()
+		}
+		if r.MachineName.Valid {
+			job.MachineName = r.MachineName.String
+		}
+		if r.PartName.Valid {
+			job.PartName = r.PartName.String
+		}
+		if r.Priority.Valid {
+			job.Priority = r.Priority.String
+		}
+		if r.Status.Valid {
+			job.Status = r.Status.String
+		}
+		if r.ScheduledStart.Valid {
+			t := r.ScheduledStart.Time
+			job.ScheduledStart = &t
+		}
+		if r.ScheduledEnd.Valid {
+			t := r.ScheduledEnd.Time
+			job.ScheduledEnd = &t
+		}
+		if r.Notes.Valid {
+			job.Notes = r.Notes.String
+		}
+		if r.CreatedAt.Valid {
+			t := r.CreatedAt.Time
+			job.CreatedAt = &t
+		}
+		if r.UpdatedAt.Valid {
+			t := r.UpdatedAt.Time
+			job.UpdatedAt = &t
+		}
+		out = append(out, job)
+	}
+	return c.JSON(http.StatusOK, out)
+}
+
+func GetProductionOrderJobs(c echo.Context) error {
+	orderUID := strings.TrimSpace(c.Param("uid"))
+	if orderUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid production order uid"})
+	}
+	dbi := c.Get("db")
+	if dbi == nil {
+		return c.JSON(http.StatusOK, []models.Job{})
+	}
+	pool, ok := dbi.(*pgxpool.Pool)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
+	}
+
+	rows, err := dbrepo.ListJobsByProductionOrderUID(pool, orderUID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query production order jobs: %v", err)})
+	}
+
+	out := make([]models.Job, 0, len(rows))
+	for _, r := range rows {
+		job := models.Job{UID: uuidString(r.UID), JobNumber: r.JobNumber, Quantity: r.Quantity}
+		if r.OrderUID.Valid {
+			job.OrderUID = r.OrderUID.String()
+		}
+		if r.OrderNumber.Valid {
+			job.OrderNumber = r.OrderNumber.String
+		}
+		if r.MachineUID.Valid {
+			job.MachineUID = r.MachineUID.String()
+		}
+		if r.MachineName.Valid {
+			job.MachineName = r.MachineName.String
+		}
+		if r.PartName.Valid {
+			job.PartName = r.PartName.String
+		}
+		if r.Priority.Valid {
+			job.Priority = r.Priority.String
+		}
+		if r.Status.Valid {
+			job.Status = r.Status.String
+		}
+		if r.ScheduledStart.Valid {
+			t := r.ScheduledStart.Time
+			job.ScheduledStart = &t
+		}
+		if r.ScheduledEnd.Valid {
+			t := r.ScheduledEnd.Time
+			job.ScheduledEnd = &t
+		}
+		if r.Notes.Valid {
+			job.Notes = r.Notes.String
+		}
+		if r.CreatedAt.Valid {
+			t := r.CreatedAt.Time
+			job.CreatedAt = &t
+		}
+		if r.UpdatedAt.Valid {
+			t := r.UpdatedAt.Time
+			job.UpdatedAt = &t
+		}
+		out = append(out, job)
+	}
+	return c.JSON(http.StatusOK, out)
+}
+
 func GetJob(c echo.Context) error {
 	uid := strings.Trim(c.Param("uid"), "/")
 	if uid == "" {

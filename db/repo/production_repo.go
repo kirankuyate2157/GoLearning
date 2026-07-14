@@ -187,6 +187,44 @@ func ListJobs(pool *pgxpool.Pool) ([]JobRow, error) {
 	return out, nil
 }
 
+func ListJobsByMachineUID(pool *pgxpool.Pool, machineUID string) ([]JobRow, error) {
+	ctx := context.Background()
+	rows, err := pool.Query(ctx, `SELECT j.id, j.uid, o.uid AS order_uid, o.order_number, m.uid AS machine_uid, m.name AS machine_name, j.job_number, j.part_name, j.quantity::float8 AS quantity, j.priority, j.status, j.scheduled_start, j.scheduled_end, j.notes, j.created_at, j.updated_at FROM jobs j LEFT JOIN production_orders o ON j.order_id = o.id JOIN machines m ON j.machine_id = m.id WHERE m.uid = $1 ORDER BY j.scheduled_start NULLS LAST, j.id ASC`, machineUID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []JobRow
+	for rows.Next() {
+		var r JobRow
+		if err := rows.Scan(&r.ID, &r.UID, &r.OrderUID, &r.OrderNumber, &r.MachineUID, &r.MachineName, &r.JobNumber, &r.PartName, &r.Quantity, &r.Priority, &r.Status, &r.ScheduledStart, &r.ScheduledEnd, &r.Notes, &r.CreatedAt, &r.UpdatedAt); err != nil {
+			return nil, err
+		}
+		out = append(out, r)
+	}
+	return out, nil
+}
+
+func ListJobsByProductionOrderUID(pool *pgxpool.Pool, orderUID string) ([]JobRow, error) {
+	ctx := context.Background()
+	rows, err := pool.Query(ctx, `SELECT j.id, j.uid, o.uid AS order_uid, o.order_number, m.uid AS machine_uid, m.name AS machine_name, j.job_number, j.part_name, j.quantity::float8 AS quantity, j.priority, j.status, j.scheduled_start, j.scheduled_end, j.notes, j.created_at, j.updated_at FROM jobs j JOIN production_orders o ON j.order_id = o.id LEFT JOIN machines m ON j.machine_id = m.id WHERE o.uid = $1 ORDER BY j.scheduled_start NULLS LAST, j.id ASC`, orderUID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []JobRow
+	for rows.Next() {
+		var r JobRow
+		if err := rows.Scan(&r.ID, &r.UID, &r.OrderUID, &r.OrderNumber, &r.MachineUID, &r.MachineName, &r.JobNumber, &r.PartName, &r.Quantity, &r.Priority, &r.Status, &r.ScheduledStart, &r.ScheduledEnd, &r.Notes, &r.CreatedAt, &r.UpdatedAt); err != nil {
+			return nil, err
+		}
+		out = append(out, r)
+	}
+	return out, nil
+}
+
 func GetJobByUID(pool *pgxpool.Pool, uid string) (JobRow, error) {
 	ctx := context.Background()
 	var r JobRow

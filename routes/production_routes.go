@@ -13,6 +13,7 @@ func ProductionRoutes(e *echo.Echo) {
 	productionGroup.GET("/:uid", controllers.GetProductionOrder)
 	productionGroup.PATCH("/:uid", controllers.UpdateProductionOrder)
 	productionGroup.DELETE("/:uid", controllers.DeleteProductionOrder)
+	productionGroup.GET("/:uid/jobs", controllers.GetProductionOrderJobs)
 
 	jobsGroup := e.Group("/api/jobs")
 	jobsGroup.GET("", controllers.GetJobs)

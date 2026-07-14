@@ -14,6 +14,7 @@ func MachineRoutes(e *echo.Echo) {
 	g.GET("/:uid", controllers.GetMachine)
 	g.PATCH("/:uid", controllers.UpdateMachine)
 	g.DELETE("/:uid", controllers.DeleteMachine)
+	g.GET("/:uid/jobs", controllers.GetMachineJobs)
 
 	g.GET("/:machine_uid/locations", controllers.ListMachineLocations)
 	g.POST("/:machine_uid/locations", controllers.CreateMachineLocation)
