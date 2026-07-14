@@ -11,43 +11,43 @@ import (
 )
 
 type InventoryItemRow struct {
-	ID            int
-	UID           pgtype.UUID
-	PartNumber    pgtype.Text
-	Name          string
-	Description   pgtype.Text
-	Quantity      float64
-	Unit          pgtype.Text
-	Location      pgtype.Text
-	LotNumber     pgtype.Text
-	SerialNumber  pgtype.Text
-	CreatedAt     pgtype.Timestamp
-	UpdatedAt     pgtype.Timestamp
+	ID           int
+	UID          pgtype.UUID
+	PartNumber   pgtype.Text
+	Name         string
+	Description  pgtype.Text
+	Quantity     float64
+	Unit         pgtype.Text
+	Location     pgtype.Text
+	LotNumber    pgtype.Text
+	SerialNumber pgtype.Text
+	CreatedAt    pgtype.Timestamp
+	UpdatedAt    pgtype.Timestamp
 }
 
 type InventoryMovementRow struct {
-	ID               int
-	UID              pgtype.UUID
-	InventoryItemID  int
+	ID                int
+	UID               pgtype.UUID
+	InventoryItemUID  pgtype.UUID
 	InventoryItemName string
-	MovementType     string
-	Quantity         float64
-	ReferenceType    pgtype.Text
-	ReferenceUID     pgtype.Text
-	Notes            pgtype.Text
-	CreatedAt        pgtype.Timestamp
+	MovementType      string
+	Quantity          float64
+	ReferenceType     pgtype.Text
+	ReferenceUID      pgtype.Text
+	Notes             pgtype.Text
+	CreatedAt         pgtype.Timestamp
 }
 
 type WIPItemRow struct {
-	ID                int
-	UID               pgtype.UUID
-	JobID             int
-	InventoryItemID   int
-	Quantity          float64
-	Status            pgtype.Text
-	Notes             pgtype.Text
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
+	ID               int
+	UID              pgtype.UUID
+	JobUID           pgtype.UUID
+	InventoryItemUID pgtype.UUID
+	Quantity         float64
+	Status           pgtype.Text
+	Notes            pgtype.Text
+	CreatedAt        pgtype.Timestamp
+	UpdatedAt        pgtype.Timestamp
 }
 
 func ListInventoryItems(pool *pgxpool.Pool) ([]InventoryItemRow, error) {
@@ -145,9 +145,16 @@ func DeleteInventoryItem(pool *pgxpool.Pool, uid string) error {
 	return err
 }
 
-func ListInventoryMovements(pool *pgxpool.Pool) ([]InventoryMovementRow, error) {
+func ListInventoryMovements(pool *pgxpool.Pool, inventoryItemUID string) ([]InventoryMovementRow, error) {
 	ctx := context.Background()
-	rows, err := pool.Query(ctx, `SELECT im.id, im.uid, im.inventory_item_id, ii.name, im.movement_type, im.quantity, im.reference_type, im.reference_uid, im.notes, im.created_at FROM inventory_movements im JOIN inventory_items ii ON im.inventory_item_id = ii.id ORDER BY im.id ASC`)
+	query := `SELECT im.id, im.uid, ii.uid AS inventory_item_uid, ii.name, im.movement_type, im.quantity, im.reference_type, im.reference_uid, im.notes, im.created_at FROM inventory_movements im JOIN inventory_items ii ON im.inventory_item_id = ii.id`
+	args := []interface{}{}
+	if inventoryItemUID != "" {
+		query += ` WHERE ii.uid = $1`
+		args = append(args, inventoryItemUID)
+	}
+	query += ` ORDER BY im.id ASC`
+	rows, err := pool.Query(ctx, query, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +162,7 @@ func ListInventoryMovements(pool *pgxpool.Pool) ([]InventoryMovementRow, error) 
 	var out []InventoryMovementRow
 	for rows.Next() {
 		var r InventoryMovementRow
-		if err := rows.Scan(&r.ID, &r.UID, &r.InventoryItemID, &r.InventoryItemName, &r.MovementType, &r.Quantity, &r.ReferenceType, &r.ReferenceUID, &r.Notes, &r.CreatedAt); err != nil {
+		if err := rows.Scan(&r.ID, &r.UID, &r.InventoryItemUID, &r.InventoryItemName, &r.MovementType, &r.Quantity, &r.ReferenceType, &r.ReferenceUID, &r.Notes, &r.CreatedAt); err != nil {
 			return nil, err
 		}
 		out = append(out, r)
@@ -165,9 +172,28 @@ func ListInventoryMovements(pool *pgxpool.Pool) ([]InventoryMovementRow, error) 
 
 func CreateInventoryMovement(pool *pgxpool.Pool, req models.InventoryMovementCreateRequest) (string, error) {
 	ctx := context.Background()
-	var uid string
-	err := pool.QueryRow(ctx, `INSERT INTO inventory_movements (inventory_item_id, movement_type, quantity, reference_type, reference_uid, notes) SELECT id, $2, $3, $4, $5, $6 FROM inventory_items WHERE uid = $1 RETURNING uid`, req.InventoryItemUID, strings.TrimSpace(req.MovementType), req.Quantity, strings.TrimSpace(req.ReferenceType), strings.TrimSpace(req.ReferenceUID), strings.TrimSpace(req.Notes)).Scan(&uid)
+	tx, err := pool.Begin(ctx)
 	if err != nil {
+		return "", err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback(ctx)
+		}
+	}()
+	var uid string
+	err = tx.QueryRow(ctx, `INSERT INTO inventory_movements (inventory_item_id, movement_type, quantity, reference_type, reference_uid, notes) SELECT id, $2, $3, $4, $5, $6 FROM inventory_items WHERE uid = $1 RETURNING uid`, req.InventoryItemUID, strings.TrimSpace(req.MovementType), req.Quantity, strings.TrimSpace(req.ReferenceType), strings.TrimSpace(req.ReferenceUID), strings.TrimSpace(req.Notes)).Scan(&uid)
+	if err != nil {
+		return "", err
+	}
+	delta := req.Quantity
+	if strings.EqualFold(strings.TrimSpace(req.MovementType), "issue") || strings.EqualFold(strings.TrimSpace(req.MovementType), "consume") || strings.EqualFold(strings.TrimSpace(req.MovementType), "withdraw") {
+		delta = -delta
+	}
+	if _, err = tx.Exec(ctx, `UPDATE inventory_items SET quantity = quantity + $1 WHERE uid = $2`, delta, req.InventoryItemUID); err != nil {
+		return "", err
+	}
+	if err = tx.Commit(ctx); err != nil {
 		return "", err
 	}
 	return uid, nil
@@ -175,7 +201,7 @@ func CreateInventoryMovement(pool *pgxpool.Pool, req models.InventoryMovementCre
 
 func ListWIPItems(pool *pgxpool.Pool) ([]WIPItemRow, error) {
 	ctx := context.Background()
-	rows, err := pool.Query(ctx, `SELECT id, uid, job_id, inventory_item_id, quantity, status, notes, created_at, updated_at FROM wip_items ORDER BY id ASC`)
+	rows, err := pool.Query(ctx, `SELECT wi.id, wi.uid, j.uid AS job_uid, ii.uid AS inventory_item_uid, wi.quantity, wi.status, wi.notes, wi.created_at, wi.updated_at FROM wip_items wi JOIN jobs j ON wi.job_id = j.id JOIN inventory_items ii ON wi.inventory_item_id = ii.id ORDER BY wi.id ASC`)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +209,7 @@ func ListWIPItems(pool *pgxpool.Pool) ([]WIPItemRow, error) {
 	var out []WIPItemRow
 	for rows.Next() {
 		var r WIPItemRow
-		if err := rows.Scan(&r.ID, &r.UID, &r.JobID, &r.InventoryItemID, &r.Quantity, &r.Status, &r.Notes, &r.CreatedAt, &r.UpdatedAt); err != nil {
+		if err := rows.Scan(&r.ID, &r.UID, &r.JobUID, &r.InventoryItemUID, &r.Quantity, &r.Status, &r.Notes, &r.CreatedAt, &r.UpdatedAt); err != nil {
 			return nil, err
 		}
 		out = append(out, r)
@@ -194,7 +220,7 @@ func ListWIPItems(pool *pgxpool.Pool) ([]WIPItemRow, error) {
 func GetWIPItemByUID(pool *pgxpool.Pool, uid string) (WIPItemRow, error) {
 	ctx := context.Background()
 	var r WIPItemRow
-	err := pool.QueryRow(ctx, `SELECT id, uid, job_id, inventory_item_id, quantity, status, notes, created_at, updated_at FROM wip_items WHERE uid = $1`, uid).Scan(&r.ID, &r.UID, &r.JobID, &r.InventoryItemID, &r.Quantity, &r.Status, &r.Notes, &r.CreatedAt, &r.UpdatedAt)
+	err := pool.QueryRow(ctx, `SELECT wi.id, wi.uid, j.uid AS job_uid, ii.uid AS inventory_item_uid, wi.quantity, wi.status, wi.notes, wi.created_at, wi.updated_at FROM wip_items wi JOIN jobs j ON wi.job_id = j.id JOIN inventory_items ii ON wi.inventory_item_id = ii.id WHERE wi.uid = $1`, uid).Scan(&r.ID, &r.UID, &r.JobUID, &r.InventoryItemUID, &r.Quantity, &r.Status, &r.Notes, &r.CreatedAt, &r.UpdatedAt)
 	return r, err
 }
 

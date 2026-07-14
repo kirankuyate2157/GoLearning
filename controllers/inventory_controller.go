@@ -172,6 +172,10 @@ func DeleteInventoryItem(c echo.Context) error {
 }
 
 func GetInventoryMovements(c echo.Context) error {
+	inventoryUID := strings.TrimSpace(c.Param("inventory_uid"))
+	if inventoryUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid inventory uid"})
+	}
 	dbi := c.Get("db")
 	if dbi == nil {
 		return c.JSON(http.StatusOK, []models.InventoryMovement{})
@@ -180,13 +184,13 @@ func GetInventoryMovements(c echo.Context) error {
 	if !ok {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "invalid db object in context"})
 	}
-	rows, err := dbrepo.ListInventoryMovements(pool)
+	rows, err := dbrepo.ListInventoryMovements(pool, inventoryUID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query inventory movements: %v", err)})
 	}
 	out := make([]models.InventoryMovement, 0, len(rows))
 	for _, r := range rows {
-		movement := models.InventoryMovement{UID: uuidString(r.UID), InventoryItemUID: uuidStringFromID(r.InventoryItemID), ItemName: r.InventoryItemName, MovementType: r.MovementType, Quantity: r.Quantity}
+		movement := models.InventoryMovement{UID: uuidString(r.UID), InventoryItemUID: uuidString(r.InventoryItemUID), ItemName: r.InventoryItemName, MovementType: r.MovementType, Quantity: r.Quantity}
 		if r.ReferenceType.Valid {
 			movement.ReferenceType = r.ReferenceType.String
 		}
@@ -206,10 +210,18 @@ func GetInventoryMovements(c echo.Context) error {
 }
 
 func CreateInventoryMovement(c echo.Context) error {
+	inventoryUID := strings.TrimSpace(c.Param("inventory_uid"))
+	if inventoryUID == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid inventory uid"})
+	}
 	var req models.InventoryMovementCreateRequest
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
 	}
+	if req.InventoryItemUID != "" && strings.TrimSpace(req.InventoryItemUID) != inventoryUID {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "inventory uid mismatch"})
+	}
+	req.InventoryItemUID = inventoryUID
 	dbi := c.Get("db")
 	if dbi == nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "db not configured"})
@@ -240,7 +252,7 @@ func GetWIPItems(c echo.Context) error {
 	}
 	out := make([]models.WIPItem, 0, len(rows))
 	for _, r := range rows {
-		wip := models.WIPItem{UID: uuidString(r.UID), Quantity: r.Quantity}
+		wip := models.WIPItem{UID: uuidString(r.UID), JobUID: uuidString(r.JobUID), InventoryItemUID: uuidString(r.InventoryItemUID), Quantity: r.Quantity}
 		if r.Status.Valid {
 			wip.Status = r.Status.String
 		}
@@ -280,7 +292,7 @@ func GetWIPItem(c echo.Context) error {
 		}
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db query wip item: %v", err)})
 	}
-	wip := models.WIPItem{UID: uuidString(r.UID), Quantity: r.Quantity}
+	wip := models.WIPItem{UID: uuidString(r.UID), JobUID: uuidString(r.JobUID), InventoryItemUID: uuidString(r.InventoryItemUID), Quantity: r.Quantity}
 	if r.Status.Valid {
 		wip.Status = r.Status.String
 	}
@@ -382,8 +394,4 @@ func DeleteWIPItem(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": fmt.Sprintf("db delete wip item: %v", err)})
 	}
 	return c.NoContent(http.StatusNoContent)
-}
-
-func uuidStringFromID(id int) string {
-	return fmt.Sprintf("%d", id)
 }
