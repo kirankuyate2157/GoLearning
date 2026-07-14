@@ -92,6 +92,8 @@ func main() {
 	routes.InventoryRoutes(e)
 	routes.PurchaseOrderRoutes(e)
 	routes.QualityRoutes(e)
+	// Governance routes (organizations, sites, roles, role-assignments)
+	routes.RegisterGovernanceRoutes(e)
 
 	// Serve static files from dist directory, fallback to local "dist" for dev environments
 	distDir := os.Getenv("DIST_DIR")
