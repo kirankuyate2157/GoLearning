@@ -1,6 +1,7 @@
 package main
 
 import (
+	"app/controllers"
 	"app/db"
 	"app/docs"
 	"app/routes"
@@ -44,6 +45,8 @@ func main() {
 		Format: "ip=${remote_ip}, method=${method}, status=${status}, uri=${uri}, latency=${latency_human}\n",
 	}))
 	e.Use(middleware.Recover())
+	// JWT auth middleware: extracts Bearer token and populates user context
+	e.Use(controllers.JWTAuthMiddleware)
 
 	// centralized HTTP error handler to ensure errors are logged
 	e.HTTPErrorHandler = func(err error, c echo.Context) {
@@ -94,6 +97,8 @@ func main() {
 	routes.QualityRoutes(e)
 	// Governance routes (organizations, sites, roles, role-assignments)
 	routes.RegisterGovernanceRoutes(e)
+	// Audit routes (audit event logs)
+	routes.RegisterAuditRoutes(e)
 
 	// Serve static files from dist directory, fallback to local "dist" for dev environments
 	distDir := os.Getenv("DIST_DIR")

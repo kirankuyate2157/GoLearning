@@ -39,6 +39,14 @@ func (g *governanceController) CreateOrganization(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
 	}
+
+	// Log audit event
+	user := GetUserContext(c)
+	if user != nil {
+		ar := repo.NewAuditRepo(pool)
+		_, _ = ar.LogAuditEvent(ctx, user.UserUID, "create", "organization", org.UID, "", org.UID, "created organization "+req.Name)
+	}
+
 	return c.JSON(http.StatusCreated, org)
 }
 
@@ -227,6 +235,14 @@ func (g *governanceController) AssignRole(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
 	}
+
+	// Log audit event
+	user := GetUserContext(c)
+	if user != nil {
+		ar := repo.NewAuditRepo(pool)
+		_, _ = ar.LogAuditEvent(ctx, user.UserUID, "assign_role", "role_assignment", ra.UID, "", ra.UID, "assigned role "+req.RoleUID+" to user "+req.UserUID)
+	}
+
 	return c.JSON(http.StatusCreated, ra)
 }
 
