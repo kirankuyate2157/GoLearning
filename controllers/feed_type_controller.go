@@ -54,17 +54,17 @@ func ListFeedTypes(c echo.Context) error {
 	for _, r := range rows {
 		var ft models.FeedType
 
-        // UID
+		// UID
 		if r.UID.Valid {
 			ft.UID = r.UID.String
 		}
 
-        // Name
+		// Name
 		if r.Name.Valid {
 			ft.Name = r.Name.String
 		}
 
-        // Description
+		// Description
 		if r.Description.Valid {
 			ft.Description = r.Description.String
 		}
@@ -95,12 +95,6 @@ func ListFeedTypes(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, output)
 }
-
-
-
-
-
-
 
 // GetFeedType godoc
 // @Summary Get FeedType
@@ -167,7 +161,6 @@ func GetFeedType(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, ft)
 }
-
 
 // CreateFeedType godoc
 // @Summary Create FeedType

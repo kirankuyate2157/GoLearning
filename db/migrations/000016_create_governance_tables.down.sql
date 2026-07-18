@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS role_assignments;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS sites;
+DROP TABLE IF EXISTS organizations;

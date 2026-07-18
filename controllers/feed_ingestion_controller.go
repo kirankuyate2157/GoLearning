@@ -3,11 +3,11 @@ package controllers
 import (
 	dbrepo "app/db/repo"
 	"app/ingestion"
-	"os"
-	"strings"
 	"app/models"
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
@@ -49,7 +49,6 @@ func StartIngestion(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "feed_uid is required"})
 	}
 
-
 	// Check if already running
 	if ingestion.Manager.IsProcessActive(feedUID) {
 		return c.JSON(http.StatusConflict, echo.Map{"error": "ingestion process is already running for this feed"})
@@ -73,7 +72,7 @@ func StartIngestion(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, echo.Map{"error": fmt.Sprintf("failed to get feed data: %v", err)})
 	}
 
-	if feedData.IsRunning{
+	if feedData.IsRunning {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "Ingestion process is already running"})
 	}
 
@@ -118,10 +117,6 @@ func StartIngestion(c echo.Context) error {
 	})
 }
 
-
-
-
-
 // StopIngestion godoc
 // @Summary Stop Feed Ingestion Process
 // @Description Stop an active ingestion subprocess for a specific feed
@@ -162,8 +157,8 @@ func StopIngestion(c echo.Context) error {
 		remark = &msg
 		errMessage = msg
 		httpStatus = http.StatusInternalServerError
-	} 
-	
+	}
+
 	pool, ok := dbi.(*pgxpool.Pool)
 	if !ok {
 		msg := "invalid db object in context"
@@ -192,9 +187,8 @@ func StopIngestion(c echo.Context) error {
 		httpStatus = http.StatusNotFound
 	}
 
-
 	// Create feed history
-	if  err := dbrepo.CreateFeedHistoryEntry(pool, feedData.ID, &isRunning, remark); err != nil {
+	if err := dbrepo.CreateFeedHistoryEntry(pool, feedData.ID, &isRunning, remark); err != nil {
 		c.Logger().Errorf("failed to save feed history: %v", err)
 		if httpStatus == http.StatusOK {
 			httpStatus = http.StatusInternalServerError
@@ -211,7 +205,6 @@ func StopIngestion(c echo.Context) error {
 		"feed_uid": feedUID,
 	})
 }
-
 
 // buildIngestionArgs constructs CLI arguments based on feed data and connection type
 func buildIngestionArgs(feedData dbrepo.FeedRow) ([]string, error) {

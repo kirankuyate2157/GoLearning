@@ -100,7 +100,7 @@ func GetFeedsAlert(c echo.Context) error {
 	if len(rows) == 0 {
 		return c.JSON(http.StatusOK, []models.FeedAlertGet{})
 	}
-	
+
 	resp := make([]models.FeedAlertGet, 0, len(rows))
 	for _, r := range rows {
 		resp = append(resp, models.FeedAlertGet{

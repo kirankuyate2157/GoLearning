@@ -92,8 +92,6 @@ func CreateFeedType(pool *pgxpool.Pool, req models.FeedTypeCreateRequest) (strin
 	return newUID, nil
 }
 
-
-
 // UpdateFeedType applies partial updates to a feed connection type
 func UpdateFeedType(pool *pgxpool.Pool, uid string, req models.FeedTypeUpdateRequest) error {
 	ctx := context.Background()
@@ -147,7 +145,6 @@ func UpdateFeedType(pool *pgxpool.Pool, uid string, req models.FeedTypeUpdateReq
 	_, err := pool.Exec(ctx, query, args...)
 	return err
 }
-
 
 // DeleteFeedType removes a feed connection type by UID
 func DeleteFeedType(pool *pgxpool.Pool, uid string) error {
